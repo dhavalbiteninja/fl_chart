@@ -31,10 +31,8 @@ When you change the chart's state, it animates to the new state internally (usin
 |borderData| check the [FlBorderData](base_chart.md#FlBorderData)|FlBorderData()|
 |minX| gets minimum x of x axis, if null, value will read from the input lineBars |null|
 |maxX| gets maximum x of x axis, if null, value will read from the input lineBars | null|
-|baselineX| defines the baseline of x-axis | 0|
 |minY| gets minimum y of y axis, if null, value will read from the input lineBars | null|
 |maxY| gets maximum y of y axis, if null, value will read from the input lineBars | null|
-|baselineY| defines the baseline of y-axis | 0|
 |clipData| clip the chart to the border (prevent drawing outside the border) | FlClipData.none()|
 |backgroundColor| a background color which is drawn behind th chart| null |
 
@@ -44,15 +42,16 @@ When you change the chart's state, it animates to the new state internally (usin
 |:---------------|:---------------|:-------|
 |show| determines to show or hide the bar line|true|
 |spots| list of [FlSpot](base_chart.md#FlSpot)'s x and y coordinates that the line go through it| []
-|color|color of the line|[Colors.redAccent]|
-|gradient| You can use any [Gradient](https://api.flutter.dev/flutter/dart-ui/Gradient-class.html) here. such as [LinearGradient](https://api.flutter.dev/flutter/painting/LinearGradient-class.html) or [RadialGradient](https://api.flutter.dev/flutter/painting/RadialGradient-class.html)|null|
+|colors| colors the line, if multiple colors provided it will be gradient|[Colors.redAccent]|
+|colorStops| gets the stop positions of the gradient color, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|null|
+|gradientFrom|determines start of the gradient, each number should be between 0 and 1, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|Offset(0, 0)|
+|gradientTo|determines end of the gradient, each number should be between 0 and 1, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|Offset(1, 0)|
 |barWidth| gets the stroke width of the line bar|2.0|
 |isCurved| curves the corners of the line on the spot's positions| false|
 |curveSmoothness| smoothness radius of the curve corners (works when isCurved is true) | 0.35|
 |preventCurveOverShooting|prevent overshooting when draw curve line on linear sequence spots, check this [issue](https://github.com/imaNNeoFighT/fl_chart/issues/25)| false|
 |preventCurveOvershootingThreshold|threshold for applying prevent overshooting algorithm | 10.0|
 |isStrokeCapRound| determines whether start and end of the bar line is Qubic or Round | false|
-|isStrokeJoinRound| determines whether stroke joins have a round shape or a sharp edge | false|
 |belowBarData| check the [BarAreaData](#BarAreaData) |BarAreaData|
 |aboveBarData| check the [BarAreaData](#BarAreaData) |BarAreaData|
 |dotData| check the [FlDotData](#FlDotData) | FlDotData()|
@@ -72,15 +71,19 @@ When you change the chart's state, it animates to the new state internally (usin
 |:-------|:----------|:------------|
 |fromIndex|index of the first LineChartBarData inside LineChartData (zero-based index)|required|
 |toIndex|index of the second LineChartBarData inside LineChartData (zero-based index)|required|
-|color|color of the area|[Colors.blueGrey]|
-|gradient| You can use any [Gradient](https://api.flutter.dev/flutter/dart-ui/Gradient-class.html) here. such as [LinearGradient](https://api.flutter.dev/flutter/painting/LinearGradient-class.html) or [RadialGradient](https://api.flutter.dev/flutter/painting/RadialGradient-class.html)|null|
+|colors|colors the area, if multiple colors provided it will be gradient|[Colors.blueGrey]|
+|gradientFrom|determines start of the gradient, each number should be between 0 and 1, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|Offset(0, 0)|
+|gradientTo|determines end of the gradient, each number should be between 0 and 1, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|Offset(1, 0)|
+|gradientColorStops|gets the stop positions of the gradient color, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|null|
 
 ### BarAreaData
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |show|determines to show or hide the below, or above bar area|false|
-|color|color of the below, or above bar area|[Colors.blueGrey]|
-|gradient| You can use any [Gradient](https://api.flutter.dev/flutter/dart-ui/Gradient-class.html) here. such as [LinearGradient](https://api.flutter.dev/flutter/painting/LinearGradient-class.html) or [RadialGradient](https://api.flutter.dev/flutter/painting/RadialGradient-class.html)|null|
+|colors|colors the below, or above bar area, if multiple colors provided it will be gradient|[Colors.blueGrey]|
+|gradientFrom|determines start of the gradient, each number should be between 0 and 1, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|Offset(0, 0)|
+|gradientTo|determines end of the gradient, each number should be between 0 and 1, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|Offset(1, 0)|
+|gradientColorStops|gets the stop positions of the gradient color, [Read More](https://api.flutter.dev/flutter/dart-ui/Gradient/Gradient.linear.html)|null|
 |spotsLine| draw a line from each spot the the bottom, or top of the chart|[BarAreaSpotsLine](#BarAreaSpotsLine)()|
 |cutOffY| cut the drawing below or above area to this y value (set `applyCutOffY` true if you want to set it)|null|
 |applyCutOffY| determines should or shouldn't apply cutOffY (`scutOffY` should be provided)|false|
@@ -166,7 +169,6 @@ When you change the chart's state, it animates to the new state internally (usin
 |touchTooltipData|a [LineTouchTooltipData](#LineTouchTooltipData), that determines how show the tooltip on top of touched spots (appearance of the showing tooltip bubble)|LineTouchTooltipData|
 |getTouchedSpotIndicator| a callback that retrieves list of [TouchedSpotIndicatorData](#TouchedSpotIndicatorData) by the given list of [LineBarSpot](#LineBarSpot) for showing the indicators on touched spots|defaultTouchedIndicators|
 |touchSpotThreshold|the threshold of the touch accuracy|10|
-|distanceCalculator| a function to calculate the distance between a spot and a touch event| _xDistance|
 |handleBuiltInTouches| set this true if you want the built in touch handling (show a tooltip bubble and an indicator on touched spots) | true|
 |getTouchLineStart| controls where the line starts, default is bottom of the chart| defaultGetTouchLineStart|
 |getTouchLineEnd| controls where the line ends, default is the touch point| defaultGetTouchLineEnd|
@@ -177,7 +179,6 @@ When you change the chart's state, it animates to the new state internally (usin
  |PropName|Description|default value|
  |:-------|:----------|:------------|
  |tooltipBgColor|background color of the tooltip bubble|Colors.white|
- |tooltipBorder|border of the tooltip bubble|BorderSide.none|
  |tooltipRoundedRadius|background corner radius of the tooltip bubble|4|
  |tooltipPadding|padding of the tooltip|EdgeInsets.symmetric(horizontal: 16, vertical: 8)|
  |tooltipMargin|margin between the tooltip and the touched spot|16|
@@ -211,19 +212,10 @@ When you change the chart's state, it animates to the new state internally (usin
 |spotIndex|index of the target [FlSpot](#FlSpot) inside [LineChartBarData](#LineChartBarData)|null|
 
 
-### TouchLineBarSpot
-|PropName|Description|default value|
-|:-------|:----------|:------------|
-|bar|the [LineChartBarData](#LineChartBarData) that contains a spot|null|
-|barIndex|index of the target [LineChartBarData](#LineChartBarData) inside [LineChartData](#LineChartData)|null|
-|spotIndex|index of the target [FlSpot](#FlSpot) inside [LineChartBarData](#LineChartBarData)|null|
-|distance|distance to the touch event|null|
-
-
 ### LineTouchResponse
 |PropName|Description|default value|
 |:-------|:----------|:------------|
-|lineBarSpots|a list of [TouchLineBarSpot](#TouchLineBarSpot)|null|
+|lineBarSpots|a list of [LineBarSpot](#LineBarSpot)|null|
 
 ### ShowingTooltipIndicators
 |PropName|Description|default value|
@@ -273,6 +265,3 @@ When you change the chart's state, it animates to the new state internally (usin
 
 ##### Sample 10 ([Source Code](/example/lib/line_chart/samples/line_chart_sample10.dart))
 <img src="https://github.com/imaNNeoFighT/fl_chart/raw/master/repo_files/images/line_chart/line_chart_sample_10.gif" width="300" >
-
-##### Gist - baseLineX, baselineY sample ([Source Code](https://gist.github.com/imaNNeoFighT/5822eda603bdad18cf46f212d5a48822))
-https://user-images.githubusercontent.com/7009300/152555425-3b53ac8c-257f-49b0-8d75-1a878c03ccaa.mp4

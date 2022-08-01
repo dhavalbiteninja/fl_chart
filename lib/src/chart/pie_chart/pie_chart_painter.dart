@@ -6,6 +6,7 @@ import 'package:fl_chart/src/chart/base/line.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import 'pie_chart_data.dart';
 
@@ -13,10 +14,10 @@ import 'pie_chart_data.dart';
 class PieChartPainter extends BaseChartPainter<PieChartData> {
   late Paint _sectionPaint, _sectionStrokePaint, _centerSpacePaint;
 
-  /// Paints [dataList] into canvas, it is the animating [PieChartData],
+  /// Paints [data] into canvas, it is the animating [PieChartData],
   /// [targetData] is the animation's target and remains the same
   /// during animation, then we should use it  when we need to show
-  /// tooltips or something like that, because [dataList] is changing constantly.
+  /// tooltips or something like that, because [data] is changing constantly.
   ///
   /// [textScale] used for scaling texts inside the chart,
   /// parent can use [MediaQuery.textScaleFactor] to respect
@@ -91,20 +92,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         _sectionPaint.strokeWidth = section.radius;
         _sectionPaint.style = PaintingStyle.stroke;
         canvasWrapper.drawCircle(
-          center,
-          centerRadius + section.radius / 2,
-          _sectionPaint,
-        );
-        if (section.borderSide.width != 0.0 &&
-            section.borderSide.color.opacity != 0.0) {
-          _sectionStrokePaint.strokeWidth = section.borderSide.width;
-          _sectionStrokePaint.color = section.borderSide.color;
-          canvasWrapper.drawCircle(
-            center,
-            centerRadius + section.radius - (section.borderSide.width / 2),
-            _sectionStrokePaint,
-          );
-        }
+            center, centerRadius + section.radius / 2, _sectionPaint);
         return;
       }
 

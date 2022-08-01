@@ -1,11 +1,9 @@
-// coverage:ignore-file
 import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_helper.dart';
 import 'package:fl_chart/src/extensions/color_extension.dart';
-import 'package:fl_chart/src/extensions/gradient_extension.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter/material.dart' hide Image;
 
@@ -19,6 +17,9 @@ class LineChartData extends AxisChartData with EquatableMixin {
 
   /// Fills area between two [LineChartBarData] with a color or gradient.
   final List<BetweenBarsData> betweenBarsData;
+
+  /// Titles on left, top, right, bottom axis for each number.
+  final FlTitlesData titlesData;
 
   /// [LineChart] draws some horizontal or vertical lines on above or below of everything
   final ExtraLinesData extraLinesData;
@@ -67,17 +68,17 @@ class LineChartData extends AxisChartData with EquatableMixin {
     List<ShowingTooltipIndicators>? showingTooltipIndicators,
     FlGridData? gridData,
     FlBorderData? borderData,
+    FlAxisTitleData? axisTitleData,
     RangeAnnotations? rangeAnnotations,
     double? minX,
     double? maxX,
-    double? baselineX,
     double? minY,
     double? maxY,
-    double? baselineY,
     FlClipData? clipData,
     Color? backgroundColor,
   })  : lineBarsData = lineBarsData ?? const [],
         betweenBarsData = betweenBarsData ?? const [],
+        titlesData = titlesData ?? FlTitlesData(),
         extraLinesData = extraLinesData ?? ExtraLinesData(),
         lineTouchData = lineTouchData ?? LineTouchData(),
         showingTooltipIndicators = showingTooltipIndicators ?? const [],
@@ -85,7 +86,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
           gridData: gridData ?? FlGridData(),
           touchData: lineTouchData ?? LineTouchData(),
           borderData: borderData,
-          titlesData: titlesData ?? FlTitlesData(),
+          axisTitleData: axisTitleData ?? FlAxisTitleData(),
           rangeAnnotations: rangeAnnotations ?? RangeAnnotations(),
           clipData: clipData ?? FlClipData.none(),
           backgroundColor: backgroundColor,
@@ -95,14 +96,12 @@ class LineChartData extends AxisChartData with EquatableMixin {
           maxX: maxX ??
               LineChartHelper.calculateMaxAxisValues(lineBarsData ?? const [])
                   .maxX,
-          baselineX: baselineX,
           minY: minY ??
               LineChartHelper.calculateMaxAxisValues(lineBarsData ?? const [])
                   .minY,
           maxY: maxY ??
               LineChartHelper.calculateMaxAxisValues(lineBarsData ?? const [])
                   .maxY,
-          baselineY: baselineY,
         );
 
   /// Lerps a [BaseChartData] based on [t] value, check [Tween.lerp].
@@ -112,10 +111,8 @@ class LineChartData extends AxisChartData with EquatableMixin {
       return LineChartData(
         minX: lerpDouble(a.minX, b.minX, t),
         maxX: lerpDouble(a.maxX, b.maxX, t),
-        baselineX: lerpDouble(a.baselineX, b.baselineX, t),
         minY: lerpDouble(a.minY, b.minY, t),
         maxY: lerpDouble(a.maxY, b.maxY, t),
-        baselineY: lerpDouble(a.baselineY, b.baselineY, t),
         backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
         borderData: FlBorderData.lerp(a.borderData, b.borderData, t),
         clipData: b.clipData,
@@ -123,6 +120,8 @@ class LineChartData extends AxisChartData with EquatableMixin {
             ExtraLinesData.lerp(a.extraLinesData, b.extraLinesData, t),
         gridData: FlGridData.lerp(a.gridData, b.gridData, t),
         titlesData: FlTitlesData.lerp(a.titlesData, b.titlesData, t),
+        axisTitleData:
+            FlAxisTitleData.lerp(a.axisTitleData, b.axisTitleData, t),
         rangeAnnotations:
             RangeAnnotations.lerp(a.rangeAnnotations, b.rangeAnnotations, t),
         lineBarsData:
@@ -143,6 +142,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
     List<LineChartBarData>? lineBarsData,
     List<BetweenBarsData>? betweenBarsData,
     FlTitlesData? titlesData,
+    FlAxisTitleData? axisTitleData,
     RangeAnnotations? rangeAnnotations,
     ExtraLinesData? extraLinesData,
     LineTouchData? lineTouchData,
@@ -151,10 +151,8 @@ class LineChartData extends AxisChartData with EquatableMixin {
     FlBorderData? borderData,
     double? minX,
     double? maxX,
-    double? baselineX,
     double? minY,
     double? maxY,
-    double? baselineY,
     FlClipData? clipData,
     Color? backgroundColor,
   }) {
@@ -162,6 +160,7 @@ class LineChartData extends AxisChartData with EquatableMixin {
       lineBarsData: lineBarsData ?? this.lineBarsData,
       betweenBarsData: betweenBarsData ?? this.betweenBarsData,
       titlesData: titlesData ?? this.titlesData,
+      axisTitleData: axisTitleData ?? this.axisTitleData,
       rangeAnnotations: rangeAnnotations ?? this.rangeAnnotations,
       extraLinesData: extraLinesData ?? this.extraLinesData,
       lineTouchData: lineTouchData ?? this.lineTouchData,
@@ -171,10 +170,8 @@ class LineChartData extends AxisChartData with EquatableMixin {
       borderData: borderData ?? this.borderData,
       minX: minX ?? this.minX,
       maxX: maxX ?? this.maxX,
-      baselineX: baselineX ?? this.baselineX,
       minY: minY ?? this.minY,
       maxY: maxY ?? this.maxY,
-      baselineY: baselineY ?? this.baselineY,
       clipData: clipData ?? this.clipData,
       backgroundColor: backgroundColor ?? this.backgroundColor,
     );
@@ -191,13 +188,12 @@ class LineChartData extends AxisChartData with EquatableMixin {
         showingTooltipIndicators,
         gridData,
         borderData,
+        axisTitleData,
         rangeAnnotations,
         minX,
         maxX,
-        baselineX,
         minY,
         maxY,
-        baselineY,
         clipData,
         backgroundColor,
       ];
@@ -211,30 +207,25 @@ class LineChartBarData with EquatableMixin {
   /// put a [FlSpot.nullSpot] between each section.
   final List<FlSpot> spots;
 
-  /// We keep the most left spot to prevent redundant calculations
-  late final FlSpot mostLeftSpot;
-
-  /// We keep the most top spot to prevent redundant calculations
-  late final FlSpot mostTopSpot;
-
-  /// We keep the most right spot to prevent redundant calculations
-  late final FlSpot mostRightSpot;
-
-  /// We keep the most bottom spot to prevent redundant calculations
-  late final FlSpot mostBottomSpot;
-
   /// Determines to show or hide the line.
   final bool show;
 
-  /// If provided, this [LineChartBarData] draws with this [color]
-  /// Otherwise we use  [gradient] to draw the background.
-  /// It throws an exception if you provide both [color] and [gradient]
-  final Color? color;
+  /// determines the color of drawing line, if one color provided it applies a solid color,
+  /// otherwise it gradients between provided colors for drawing the line.
+  final List<Color> colors;
 
-  /// If provided, this [LineChartBarData] draws with this [gradient].
-  /// Otherwise we use [color] to draw the background.
-  /// It throws an exception if you provide both [color] and [gradient]
-  final Gradient? gradient;
+  /// Determines the gradient color stops, if multiple [colors] provided.
+  final List<double>? colorStops;
+
+  /// Determines the start point of gradient,
+  /// Offset(0, 0) represent the top / left
+  /// Offset(1, 1) represent the bottom / right.
+  final Offset gradientFrom;
+
+  /// Determines the end point of gradient,
+  /// Offset(0, 0) represent the top / left
+  /// Offset(1, 1) represent the bottom / right.
+  final Offset gradientTo;
 
   /// Determines thickness of drawing line.
   final double barWidth;
@@ -255,9 +246,6 @@ class LineChartBarData with EquatableMixin {
 
   /// Determines the style of line's cap.
   final bool isStrokeCapRound;
-
-  /// Determines the style of line joins.
-  final bool isStrokeJoinRound;
 
   /// Fills the space blow the line, using a color or gradient.
   final BarAreaData belowBarData;
@@ -291,7 +279,7 @@ class LineChartBarData with EquatableMixin {
   ///
   /// [show] determines the drawing, if set to false, it draws nothing.
   ///
-  /// [mainColors] determines the color of drawing line, if one color provided it applies a solid color,
+  /// [colors] determines the color of drawing line, if one color provided it applies a solid color,
   /// otherwise it gradients between provided colors for drawing the line.
   /// Gradient happens using provided [colorStops], [gradientFrom], [gradientTo].
   /// if you want it draw normally, don't touch them,
@@ -307,8 +295,6 @@ class LineChartBarData with EquatableMixin {
   /// to overshooting understand the problem.
   ///
   /// [isStrokeCapRound] determines the shape of line's cap.
-  ///
-  /// [isStrokeJoinRound] determines the shape of the line joins.
   ///
   /// [belowBarData], and  [aboveBarData] used to fill the space below or above the drawn line,
   /// you can fill with a solid color or a linear gradient.
@@ -327,15 +313,16 @@ class LineChartBarData with EquatableMixin {
   LineChartBarData({
     List<FlSpot>? spots,
     bool? show,
-    Color? color,
-    Gradient? gradient,
+    List<Color>? colors,
+    List<double>? colorStops,
+    Offset? gradientFrom,
+    Offset? gradientTo,
     double? barWidth,
     bool? isCurved,
     double? curveSmoothness,
     bool? preventCurveOverShooting,
     double? preventCurveOvershootingThreshold,
     bool? isStrokeCapRound,
-    bool? isStrokeJoinRound,
     BarAreaData? belowBarData,
     BarAreaData? aboveBarData,
     FlDotData? dotData,
@@ -346,9 +333,10 @@ class LineChartBarData with EquatableMixin {
     LineChartStepData? lineChartStepData,
   })  : spots = spots ?? const [],
         show = show ?? true,
-        color =
-            color ?? ((color == null && gradient == null) ? Colors.cyan : null),
-        gradient = gradient,
+        colors = colors ?? const [Colors.cyan],
+        colorStops = colorStops,
+        gradientFrom = gradientFrom ?? const Offset(0, 0),
+        gradientTo = gradientTo ?? const Offset(1, 0),
         barWidth = barWidth ?? 2.0,
         isCurved = isCurved ?? false,
         curveSmoothness = curveSmoothness ?? 0.35,
@@ -356,7 +344,6 @@ class LineChartBarData with EquatableMixin {
         preventCurveOvershootingThreshold =
             preventCurveOvershootingThreshold ?? 10.0,
         isStrokeCapRound = isStrokeCapRound ?? false,
-        isStrokeJoinRound = isStrokeJoinRound ?? false,
         belowBarData = belowBarData ?? BarAreaData(),
         aboveBarData = aboveBarData ?? BarAreaData(),
         dotData = dotData ?? FlDotData(),
@@ -364,43 +351,7 @@ class LineChartBarData with EquatableMixin {
         dashArray = dashArray,
         shadow = shadow ?? const Shadow(color: Colors.transparent),
         isStepLineChart = isStepLineChart ?? false,
-        lineChartStepData = lineChartStepData ?? LineChartStepData() {
-    FlSpot? mostLeft, mostTop, mostRight, mostBottom;
-
-    FlSpot? firstValidSpot;
-    try {
-      firstValidSpot =
-          this.spots.firstWhere((element) => element != FlSpot.nullSpot);
-    } catch (e) {
-      // There is no valid spot
-    }
-    if (firstValidSpot != null) {
-      for (var spot in this.spots) {
-        if (spot.isNull()) {
-          continue;
-        }
-        if (mostLeft == null || spot.x < mostLeft.x) {
-          mostLeft = spot;
-        }
-
-        if (mostRight == null || spot.x > mostRight.x) {
-          mostRight = spot;
-        }
-
-        if (mostTop == null || spot.y > mostTop.y) {
-          mostTop = spot;
-        }
-
-        if (mostBottom == null || spot.y < mostBottom.y) {
-          mostBottom = spot;
-        }
-      }
-      mostLeftSpot = mostLeft!;
-      mostTopSpot = mostTop!;
-      mostRightSpot = mostRight!;
-      mostBottomSpot = mostBottom!;
-    }
-  }
+        lineChartStepData = lineChartStepData ?? LineChartStepData();
 
   /// Lerps a [LineChartBarData] based on [t] value, check [Tween.lerp].
   static LineChartBarData lerp(
@@ -413,7 +364,6 @@ class LineChartBarData with EquatableMixin {
       curveSmoothness: b.curveSmoothness,
       isCurved: b.isCurved,
       isStrokeCapRound: b.isStrokeCapRound,
-      isStrokeJoinRound: b.isStrokeJoinRound,
       preventCurveOverShooting: b.preventCurveOverShooting,
       preventCurveOvershootingThreshold: lerpDouble(
           a.preventCurveOvershootingThreshold,
@@ -421,8 +371,10 @@ class LineChartBarData with EquatableMixin {
           t),
       dotData: FlDotData.lerp(a.dotData, b.dotData, t),
       dashArray: lerpIntList(a.dashArray, b.dashArray, t),
-      color: Color.lerp(a.color, b.color, t),
-      gradient: Gradient.lerp(a.gradient, b.gradient, t),
+      colors: lerpColorList(a.colors, b.colors, t),
+      colorStops: lerpDoubleList(a.colorStops, b.colorStops, t),
+      gradientFrom: Offset.lerp(a.gradientFrom, b.gradientFrom, t),
+      gradientTo: Offset.lerp(a.gradientTo, b.gradientTo, t),
       spots: lerpFlSpotList(a.spots, b.spots, t),
       showingIndicators: b.showingIndicators,
       shadow: Shadow.lerp(a.shadow, b.shadow, t),
@@ -437,15 +389,16 @@ class LineChartBarData with EquatableMixin {
   LineChartBarData copyWith({
     List<FlSpot>? spots,
     bool? show,
-    Color? color,
-    Gradient? gradient,
+    List<Color>? colors,
+    List<double>? colorStops,
+    Offset? gradientFrom,
+    Offset? gradientTo,
     double? barWidth,
     bool? isCurved,
     double? curveSmoothness,
     bool? preventCurveOverShooting,
     double? preventCurveOvershootingThreshold,
     bool? isStrokeCapRound,
-    bool? isStrokeJoinRound,
     BarAreaData? belowBarData,
     BarAreaData? aboveBarData,
     FlDotData? dotData,
@@ -458,8 +411,10 @@ class LineChartBarData with EquatableMixin {
     return LineChartBarData(
       spots: spots ?? this.spots,
       show: show ?? this.show,
-      color: color ?? this.color,
-      gradient: gradient ?? this.gradient,
+      colors: colors ?? this.colors,
+      colorStops: colorStops ?? this.colorStops,
+      gradientFrom: gradientFrom ?? this.gradientFrom,
+      gradientTo: gradientTo ?? this.gradientTo,
       barWidth: barWidth ?? this.barWidth,
       isCurved: isCurved ?? this.isCurved,
       curveSmoothness: curveSmoothness ?? this.curveSmoothness,
@@ -468,7 +423,6 @@ class LineChartBarData with EquatableMixin {
       preventCurveOvershootingThreshold: preventCurveOvershootingThreshold ??
           this.preventCurveOvershootingThreshold,
       isStrokeCapRound: isStrokeCapRound ?? this.isStrokeCapRound,
-      isStrokeJoinRound: isStrokeJoinRound ?? this.isStrokeJoinRound,
       belowBarData: belowBarData ?? this.belowBarData,
       aboveBarData: aboveBarData ?? this.aboveBarData,
       dashArray: dashArray ?? this.dashArray,
@@ -485,15 +439,16 @@ class LineChartBarData with EquatableMixin {
   List<Object?> get props => [
         spots,
         show,
-        color,
-        gradient,
+        colors,
+        colorStops,
+        gradientFrom,
+        gradientTo,
         barWidth,
         isCurved,
         curveSmoothness,
         preventCurveOverShooting,
         preventCurveOvershootingThreshold,
         isStrokeCapRound,
-        isStrokeJoinRound,
         belowBarData,
         aboveBarData,
         dotData,
@@ -539,15 +494,23 @@ class LineChartStepData with EquatableMixin {
 class BarAreaData with EquatableMixin {
   final bool show;
 
-  /// If provided, this [BarAreaData] draws with this [color]
-  /// Otherwise we use  [gradient] to draw the background.
-  /// It throws an exception if you provide both [color] and [gradient]
-  final Color? color;
+  /// if you pass just one color, the solid color will be used,
+  /// or if you pass more than one color, we use gradient mode to draw.
+  /// then the [gradientFrom], [gradientTo] and [gradientColorStops] is important,
+  final List<Color> colors;
 
-  /// If provided, this [BarAreaData] draws with this [gradient].
-  /// Otherwise we use [color] to draw the background.
-  /// It throws an exception if you provide both [color] and [gradient]
-  final Gradient? gradient;
+  /// if the gradient mode is enabled (if you have more than one color)
+  /// [gradientFrom] and [gradientTo] is important otherwise they will be skipped.
+  /// you can determine where the gradient should start and end,
+  /// values are available between 0 to 1,
+  /// Offset(0, 0) represent the top / left
+  /// Offset(1, 1) represent the bottom / right
+  final Offset gradientFrom;
+  final Offset gradientTo;
+
+  /// if more than one color provided gradientColorStops will hold
+  /// stop points of the gradient.
+  final List<double>? gradientColorStops;
 
   /// holds data for drawing a line from each spot the the bottom, or top of the chart
   final BarAreaSpotsLine spotsLine;
@@ -561,7 +524,7 @@ class BarAreaData with EquatableMixin {
   /// if [show] is true, [LineChart] fills above and below area of each line
   /// with a color or gradient.
   ///
-  /// [color] determines the color of above or below space area,
+  /// [colors] determines the color of above or below space area,
   /// if one color provided it applies a solid color,
   /// otherwise it gradients between provided colors for drawing the line.
   /// Gradient happens using provided [gradientColorStops], [gradientFrom], [gradientTo].
@@ -574,17 +537,18 @@ class BarAreaData with EquatableMixin {
   /// If [applyCutOffY] is true, it cuts the drawing by the [cutOffY] line.
   BarAreaData({
     bool? show,
-    Color? color,
-    Gradient? gradient,
+    List<Color>? colors,
+    Offset? gradientFrom,
+    Offset? gradientTo,
+    List<double>? gradientColorStops,
     BarAreaSpotsLine? spotsLine,
     double? cutOffY,
     bool? applyCutOffY,
   })  : show = show ?? false,
-        color = color ??
-            ((color == null && gradient == null)
-                ? Colors.blueGrey.withOpacity(0.5)
-                : null),
-        gradient = gradient,
+        colors = colors ?? [Colors.blueGrey.withOpacity(0.5)],
+        gradientFrom = gradientFrom ?? const Offset(0, 0),
+        gradientTo = gradientTo ?? const Offset(1, 0),
+        gradientColorStops = gradientColorStops,
         spotsLine = spotsLine ?? BarAreaSpotsLine(),
         cutOffY = cutOffY ?? 0,
         applyCutOffY = applyCutOffY ?? false,
@@ -594,10 +558,12 @@ class BarAreaData with EquatableMixin {
   static BarAreaData lerp(BarAreaData a, BarAreaData b, double t) {
     return BarAreaData(
       show: b.show,
+      gradientFrom: Offset.lerp(a.gradientFrom, b.gradientFrom, t),
+      gradientTo: Offset.lerp(a.gradientTo, b.gradientTo, t),
       spotsLine: BarAreaSpotsLine.lerp(a.spotsLine, b.spotsLine, t),
-      color: Color.lerp(a.color, b.color, t),
-      // ignore: invalid_use_of_protected_member
-      gradient: Gradient.lerp(a.gradient, b.gradient, t),
+      colors: lerpColorList(a.colors, b.colors, t),
+      gradientColorStops:
+          lerpDoubleList(a.gradientColorStops, b.gradientColorStops, t),
       cutOffY: lerpDouble(a.cutOffY, b.cutOffY, t),
       applyCutOffY: b.applyCutOffY,
     );
@@ -607,8 +573,10 @@ class BarAreaData with EquatableMixin {
   @override
   List<Object?> get props => [
         show,
-        color,
-        gradient,
+        colors,
+        gradientFrom,
+        gradientTo,
+        gradientColorStops,
         spotsLine,
         cutOffY,
         applyCutOffY,
@@ -623,36 +591,48 @@ class BetweenBarsData with EquatableMixin {
   /// The index of the lineBarsData until where the area has to be rendered
   final int toIndex;
 
-  /// If provided, this [BetweenBarsData] draws with this [color]
-  /// Otherwise we use  [gradient] to draw the background.
-  /// It throws an exception if you provide both [color] and [gradient]
-  final Color? color;
+  /// if you pass just one color, the solid color will be used,
+  /// or if you pass more than one color, we use gradient mode to draw.
+  /// then the [gradientFrom], [gradientTo] and [gradientColorStops] is important,
+  final List<Color> colors;
 
-  /// If provided, this [BetweenBarsData] draws with this [gradient].
-  /// Otherwise we use [color] to draw the background.
-  /// It throws an exception if you provide both [color] and [gradient]
-  final Gradient? gradient;
+  /// if the gradient mode is enabled (if you have more than one color)
+  /// [gradientFrom] and [gradientTo] is important otherwise they will be skipped.
+  /// you can determine where the gradient should start and end,
+  /// values are available between 0 to 1,
+  /// Offset(0, 0) represent the top / left
+  /// Offset(1, 1) represent the bottom / right
+  final Offset gradientFrom;
+  final Offset gradientTo;
+
+  /// if more than one color provided gradientColorStops will hold
+  /// stop points of the gradient.
+  final List<double>? gradientColorStops;
 
   BetweenBarsData({
     required int fromIndex,
     required int toIndex,
-    Color? color,
-    Gradient? gradient,
+    List<Color>? colors,
+    Offset? gradientFrom,
+    Offset? gradientTo,
+    List<double>? gradientColorStops,
   })  : fromIndex = fromIndex,
         toIndex = toIndex,
-        color = color ??
-            ((color == null && gradient == null)
-                ? Colors.blueGrey.withOpacity(0.5)
-                : null),
-        gradient = gradient;
+        colors = colors ?? [Colors.blueGrey.withOpacity(0.5)],
+        gradientFrom = gradientFrom ?? const Offset(0, 0),
+        gradientTo = gradientTo ?? const Offset(1, 0),
+        gradientColorStops = gradientColorStops;
 
   /// Lerps a [BetweenBarsData] based on [t] value, check [Tween.lerp].
   static BetweenBarsData lerp(BetweenBarsData a, BetweenBarsData b, double t) {
     return BetweenBarsData(
       fromIndex: b.fromIndex,
       toIndex: b.toIndex,
-      color: Color.lerp(a.color, b.color, t),
-      gradient: Gradient.lerp(a.gradient, b.gradient, t),
+      gradientFrom: Offset.lerp(a.gradientFrom, b.gradientFrom, t),
+      gradientTo: Offset.lerp(a.gradientTo, b.gradientTo, t),
+      colors: lerpColorList(a.colors, b.colors, t),
+      gradientColorStops:
+          lerpDoubleList(a.gradientColorStops, b.gradientColorStops, t),
     );
   }
 
@@ -661,8 +641,10 @@ class BetweenBarsData with EquatableMixin {
   List<Object?> get props => [
         fromIndex,
         toIndex,
-        color,
-        gradient,
+        colors,
+        gradientFrom,
+        gradientTo,
+        gradientColorStops,
       ];
 }
 
@@ -733,32 +715,33 @@ bool showAllSpotsBelowLine(FlSpot spot) {
 /// It should return a [Color] that needs to be used for drawing target.
 typedef GetDotColorCallback = Color Function(FlSpot, double, LineChartBarData);
 
-/// If there is one color in [LineChartBarData.mainColors], it returns that color,
+/// If there is one color in [LineChartBarData.colors], it returns that color,
 /// otherwise it returns the color along the gradient colors based on the [xPercentage].
 Color _defaultGetDotColor(FlSpot _, double xPercentage, LineChartBarData bar) {
-  if (bar.gradient != null && bar.gradient is LinearGradient) {
-    return lerpGradient(
-      bar.gradient!.colors,
-      bar.gradient!.getSafeColorStops(),
-      xPercentage / 100,
-    );
+  if (bar.colors.isEmpty) {
+    throw ArgumentError('"colors" is empty.');
+  } else if (bar.colors.length == 1) {
+    return bar.colors[0];
+  } else {
+    return lerpGradient(bar.colors, bar.getSafeColorStops(), xPercentage / 100);
   }
-  return bar.gradient?.colors.first ?? bar.color ?? Colors.blueGrey;
 }
 
-/// If there is one color in [LineChartBarData.mainColors], it returns that color in a darker mode,
+/// If there is one color in [LineChartBarData.colors], it returns that color in a darker mode,
 /// otherwise it returns the color along the gradient colors based on the [xPercentage] in a darker mode.
 Color _defaultGetDotStrokeColor(
     FlSpot spot, double xPercentage, LineChartBarData bar) {
   Color color;
-  if (bar.gradient != null && bar.gradient is LinearGradient) {
+  if (bar.colors.isEmpty) {
+    throw ArgumentError('"colors" is empty.');
+  } else if (bar.colors.length == 1) {
+    color = bar.colors[0];
+  } else {
     color = lerpGradient(
-      bar.gradient!.colors,
-      bar.gradient!.getSafeColorStops(),
+      bar.colors,
+      bar.getSafeColorStops(),
       xPercentage / 100,
     );
-  } else {
-    color = bar.gradient?.colors.first ?? bar.color ?? Colors.blueGrey;
   }
   return color.darken();
 }
@@ -1413,9 +1396,6 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
   /// Distance threshold to handle the touch event.
   final double touchSpotThreshold;
 
-  /// Distance function used when finding closest points to touch point
-  final CalculateTouchDistance distanceCalculator;
-
   /// Determines to handle default built-in touch responses,
   /// [LineTouchResponse] shows a tooltip popup above the touched spot.
   final bool handleBuiltInTouches;
@@ -1452,7 +1432,6 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
     LineTouchTooltipData? touchTooltipData,
     GetTouchedSpotIndicator? getTouchedSpotIndicator,
     double? touchSpotThreshold,
-    CalculateTouchDistance? distanceCalculator,
     bool? handleBuiltInTouches,
     GetTouchLineY? getTouchLineStart,
     GetTouchLineY? getTouchLineEnd,
@@ -1460,7 +1439,6 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
         getTouchedSpotIndicator =
             getTouchedSpotIndicator ?? defaultTouchedIndicators,
         touchSpotThreshold = touchSpotThreshold ?? 10,
-        distanceCalculator = distanceCalculator ?? _xDistance,
         handleBuiltInTouches = handleBuiltInTouches ?? true,
         getTouchLineStart = getTouchLineStart ?? defaultGetTouchLineStart,
         getTouchLineEnd = getTouchLineEnd ?? defaultGetTouchLineEnd,
@@ -1475,7 +1453,6 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
     LineTouchTooltipData? touchTooltipData,
     GetTouchedSpotIndicator? getTouchedSpotIndicator,
     double? touchSpotThreshold,
-    CalculateTouchDistance? distanceCalculator,
     GetTouchLineY? getTouchLineStart,
     GetTouchLineY? getTouchLineEnd,
     bool? handleBuiltInTouches,
@@ -1488,7 +1465,6 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
       getTouchedSpotIndicator:
           getTouchedSpotIndicator ?? this.getTouchedSpotIndicator,
       touchSpotThreshold: touchSpotThreshold ?? this.touchSpotThreshold,
-      distanceCalculator: distanceCalculator ?? this.distanceCalculator,
       getTouchLineStart: getTouchLineStart ?? this.getTouchLineStart,
       getTouchLineEnd: getTouchLineEnd ?? this.getTouchLineEnd,
       handleBuiltInTouches: handleBuiltInTouches ?? this.handleBuiltInTouches,
@@ -1504,7 +1480,6 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
         touchTooltipData,
         getTouchedSpotIndicator,
         touchSpotThreshold,
-        distanceCalculator,
         handleBuiltInTouches,
         getTouchLineStart,
         getTouchLineEnd,
@@ -1524,21 +1499,12 @@ typedef GetTouchedSpotIndicator = List<TouchedSpotIndicatorData?> Function(
 typedef GetTouchLineY = double Function(
     LineChartBarData barData, int spotIndex);
 
-/// Used to calculate the distance between coordinates of a touch event and a spot
-typedef CalculateTouchDistance = double Function(
-    Offset touchPoint, Offset spotPixelCoordinates);
-
-/// Default distanceCalculator only considers distance on x axis
-double _xDistance(Offset touchPoint, Offset spotPixelCoordinates) {
-  return ((touchPoint.dx - spotPixelCoordinates.dx)).abs();
-}
-
 /// Default presentation of touched indicators.
 List<TouchedSpotIndicatorData> defaultTouchedIndicators(
     LineChartBarData barData, List<int> indicators) {
   return indicators.map((int index) {
     /// Indicator Line
-    var lineColor = barData.gradient?.colors.first ?? barData.color;
+    var lineColor = barData.colors[0];
     if (barData.dotData.show) {
       lineColor = _defaultGetDotColor(barData.spots[index], 0, barData);
     }
@@ -1600,9 +1566,6 @@ class LineTouchTooltipData with EquatableMixin {
   /// Controls the rotation of the tooltip.
   final double rotateAngle;
 
-  /// The tooltip border color.
-  final BorderSide tooltipBorder;
-
   /// if [LineTouchData.handleBuiltInTouches] is true,
   /// [LineChart] shows a tooltip popup on top of spots automatically when touch happens,
   /// otherwise you can show it manually using [LineChartData.showingTooltipIndicators].
@@ -1627,7 +1590,6 @@ class LineTouchTooltipData with EquatableMixin {
     bool? fitInsideVertically,
     bool? showOnTopOfTheChartBoxArea,
     double? rotateAngle,
-    BorderSide? tooltipBorder,
   })  : tooltipBgColor = tooltipBgColor ?? Colors.blueGrey.darken(15),
         tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
         tooltipPadding = tooltipPadding ??
@@ -1639,7 +1601,6 @@ class LineTouchTooltipData with EquatableMixin {
         fitInsideVertically = fitInsideVertically ?? false,
         showOnTopOfTheChartBoxArea = showOnTopOfTheChartBoxArea ?? false,
         rotateAngle = rotateAngle ?? 0.0,
-        tooltipBorder = tooltipBorder ?? BorderSide.none,
         super();
 
   /// Used for equality check, see [EquatableMixin].
@@ -1654,8 +1615,7 @@ class LineTouchTooltipData with EquatableMixin {
         fitInsideHorizontally,
         fitInsideVertically,
         showOnTopOfTheChartBoxArea,
-        rotateAngle,
-        tooltipBorder,
+        rotateAngle
       ];
 }
 
@@ -1673,9 +1633,7 @@ typedef GetLineTooltipItems = List<LineTooltipItem?> Function(
 List<LineTooltipItem> defaultLineTooltipItem(List<LineBarSpot> touchedSpots) {
   return touchedSpots.map((LineBarSpot touchedSpot) {
     final textStyle = TextStyle(
-      color: touchedSpot.bar.gradient?.colors.first ??
-          touchedSpot.bar.color ??
-          Colors.blueGrey,
+      color: touchedSpot.bar.colors[0],
       fontWeight: FontWeight.bold,
       fontSize: 14,
     );
@@ -1714,19 +1672,6 @@ class LineBarSpot extends FlSpot with EquatableMixin {
         x,
         y,
       ];
-}
-
-/// A [LineBarSpot] that holds information about the event that selected it
-class TouchLineBarSpot extends LineBarSpot {
-  /// Distance in pixels from where the user taped
-  final double distance;
-
-  TouchLineBarSpot(
-    LineChartBarData bar,
-    int barIndex,
-    FlSpot spot,
-    this.distance,
-  ) : super(bar, barIndex, spot);
 }
 
 /// Holds data of showing each row item in the tooltip popup.
@@ -1814,17 +1759,16 @@ class ShowingTooltipIndicators with EquatableMixin {
 class LineTouchResponse extends BaseTouchResponse {
   /// touch happened on these spots
   /// (if a single line provided on the chart, [lineBarSpots]'s length will be 1 always)
-  final List<TouchLineBarSpot>? lineBarSpots;
+  final List<LineBarSpot>? lineBarSpots;
 
   /// If touch happens, [LineChart] processes it internally and
   /// passes out a list of [lineBarSpots] it gives you information about the touched spot.
-  /// They are sorted based on their distance to the touch event
   LineTouchResponse(this.lineBarSpots) : super();
 
   /// Copies current [LineTouchResponse] to a new [LineTouchResponse],
   /// and replaces provided values.
   LineTouchResponse copyWith({
-    List<TouchLineBarSpot>? lineBarSpots,
+    List<LineBarSpot>? lineBarSpots,
   }) {
     return LineTouchResponse(
       lineBarSpots ?? this.lineBarSpots,

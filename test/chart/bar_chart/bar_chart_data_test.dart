@@ -59,16 +59,16 @@ void main() {
       expect(backgroundBarChartRodData2 == backgroundBarChartRodData3, false);
 
       final changed = BackgroundBarChartRodData(
-        toY: 21,
-        color: Colors.blue,
+        y: 21,
+        colors: [Colors.blue],
         show: false,
       );
 
       expect(backgroundBarChartRodData1 == changed, false);
 
       final changed2 = BackgroundBarChartRodData(
-        toY: 22,
-        color: Colors.blue,
+        y: 22,
+        colors: [Colors.blue],
         show: true,
       );
 
@@ -97,8 +97,6 @@ void main() {
       expect(barTouchTooltipData1 == barTouchTooltipData7, false);
       expect(barTouchTooltipData1 == barTouchTooltipData8, false);
       expect(barTouchTooltipData1 == barTouchTooltipData9, false);
-      expect(barTouchTooltipData1 == barTouchTooltipData10, false);
-      expect(barTouchTooltipData1 == barTouchTooltipData11, false);
     });
 
     test('BarTooltipItem equality test', () {

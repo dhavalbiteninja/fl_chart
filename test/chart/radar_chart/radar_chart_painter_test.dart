@@ -12,69 +12,18 @@ import 'radar_chart_painter_test.mocks.dart';
 
 @GenerateMocks([Canvas, CanvasWrapper, BuildContext, Utils])
 void main() {
-  final utilsMainInstance = Utils();
-  group('paint()', () {
+  group('RadarChart usable size', () {
     test('test 1', () {
-      const viewSize = Size(400, 400);
-      final data = RadarChartData(
-        dataSets: [
-          RadarDataSet(
-            dataEntries: const [
-              RadarEntry(value: 12),
-              RadarEntry(value: 11),
-              RadarEntry(value: 10),
-            ],
-          ),
-          RadarDataSet(
-            dataEntries: const [
-              RadarEntry(value: 2),
-              RadarEntry(value: 2),
-              RadarEntry(value: 2),
-            ],
-          ),
-          RadarDataSet(
-            dataEntries: const [
-              RadarEntry(value: 4),
-              RadarEntry(value: 4),
-              RadarEntry(value: 4),
-            ],
-          ),
-        ],
-      );
+      const viewSize = Size(728, 728);
 
-      final radarPainter = RadarChartPainter();
+      final RadarChartData data = RadarChartData(dataSets: [
+        RadarDataSet(),
+      ]);
+
+      final RadarChartPainter radarChartPainter = RadarChartPainter();
       final holder = PaintHolder<RadarChartData>(data, data, 1.0);
-
-      MockUtils mockUtils = MockUtils();
-      Utils.changeInstance(mockUtils);
-      when(mockUtils.getThemeAwareTextStyle(any, any))
-          .thenAnswer((realInvocation) => textStyle1);
-      when(mockUtils.calculateRotationOffset(any, any))
-          .thenAnswer((realInvocation) => Offset.zero);
-      when(mockUtils.convertRadiusToSigma(any))
-          .thenAnswer((realInvocation) => 4.0);
-      when(mockUtils.getEfficientInterval(any, any))
-          .thenAnswer((realInvocation) => 1.0);
-      when(mockUtils.getBestInitialIntervalValue(any, any, any))
-          .thenAnswer((realInvocation) => 1.0);
-      when(mockUtils.normalizeBorderRadius(any, any))
-          .thenAnswer((realInvocation) => BorderRadius.zero);
-      when(mockUtils.normalizeBorderSide(any, any)).thenAnswer(
-          (realInvocation) => const BorderSide(color: MockData.color0));
-
-      final mockBuildContext = MockBuildContext();
-      MockCanvasWrapper mockCanvasWrapper = MockCanvasWrapper();
-      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
-      radarPainter.paint(
-        mockBuildContext,
-        mockCanvasWrapper,
-        holder,
-      );
-
-      verify(mockCanvasWrapper.drawCircle(any, any, any)).called(12);
-      verify(mockCanvasWrapper.drawLine(any, any, any)).called(3);
-      Utils.changeInstance(utilsMainInstance);
+      expect(radarChartPainter.getChartUsableDrawSize(viewSize, holder),
+          const Size(728, 728));
     });
   });
 
@@ -108,19 +57,19 @@ void main() {
       final RadarChartPainter radarChartPainter = RadarChartPainter();
       final holder = PaintHolder<RadarChartData>(data, data, 1.0);
 
-      final mockCanvasWrapper = MockCanvasWrapper();
-      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      final mockUtils = MockUtils();
-      when(mockUtils.getThemeAwareTextStyle(any, any))
+      final _mockUtils = MockUtils();
+      when(_mockUtils.getThemeAwareTextStyle(any, any))
           .thenReturn(MockData.textStyle1);
-      Utils.changeInstance(mockUtils);
+      Utils.changeInstance(_mockUtils);
 
-      MockBuildContext mockContext = MockBuildContext();
+      MockBuildContext _mockContext = MockBuildContext();
 
       List<Map<String, dynamic>> drawCircleResults = [];
-      when(mockCanvasWrapper.drawCircle(captureAny, captureAny, captureAny))
+      when(_mockCanvasWrapper.drawCircle(captureAny, captureAny, captureAny))
           .thenAnswer((inv) {
         drawCircleResults.add({
           'offset': inv.positionalArguments[0] as Offset,
@@ -131,7 +80,7 @@ void main() {
         });
       });
 
-      radarChartPainter.drawTicks(mockContext, mockCanvasWrapper, holder);
+      radarChartPainter.drawTicks(_mockContext, _mockCanvasWrapper, holder);
 
       expect(drawCircleResults.length, 3);
 
@@ -155,86 +104,8 @@ void main() {
       expect(drawCircleResults[2]['paint_stroke'], 55);
       expect(drawCircleResults[2]['paint_style'], PaintingStyle.stroke);
 
-      final result = verify(mockCanvasWrapper.drawText(captureAny, captureAny));
-      expect(result.callCount, 1);
-      final tp = result.captured[0] as TextPainter;
-      expect((tp.text as TextSpan).text, '1.0');
-      expect((tp.text as TextSpan).style, MockData.textStyle1);
-      expect(result.captured[1] as Offset, const Offset(205, 76));
-    });
-
-    test('test 2', () {
-      const viewSize = Size(400, 300);
-
-      final RadarChartData data = RadarChartData(
-        dataSets: [
-          RadarDataSet(dataEntries: [
-            const RadarEntry(value: 1),
-            const RadarEntry(value: 2),
-            const RadarEntry(value: 3),
-          ]),
-          RadarDataSet(dataEntries: [
-            const RadarEntry(value: 3),
-            const RadarEntry(value: 1),
-            const RadarEntry(value: 2),
-          ]),
-          RadarDataSet(dataEntries: [
-            const RadarEntry(value: 2),
-            const RadarEntry(value: 3),
-            const RadarEntry(value: 1),
-          ]),
-        ],
-        radarBorderData: const BorderSide(color: MockData.color6, width: 33),
-        radarShape: RadarShape.polygon,
-        tickBorderData: const BorderSide(color: MockData.color5, width: 55),
-        radarBackgroundColor: MockData.color2,
-      );
-
-      final RadarChartPainter radarChartPainter = RadarChartPainter();
-      final holder = PaintHolder<RadarChartData>(data, data, 1.0);
-
-      final mockCanvasWrapper = MockCanvasWrapper();
-      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
-
-      final mockUtils = MockUtils();
-      when(mockUtils.getThemeAwareTextStyle(any, any))
-          .thenReturn(MockData.textStyle1);
-      Utils.changeInstance(mockUtils);
-
-      MockBuildContext mockContext = MockBuildContext();
-
-      List<Map<String, dynamic>> drawPathResult = [];
-      when(mockCanvasWrapper.drawPath(captureAny, captureAny))
-          .thenAnswer((inv) {
-        drawPathResult.add({
-          'path': inv.positionalArguments[0] as Path,
-          'paint_color': (inv.positionalArguments[1] as Paint).color,
-          'paint_stroke': (inv.positionalArguments[1] as Paint).strokeWidth,
-          'paint_style': (inv.positionalArguments[1] as Paint).style,
-        });
-      });
-
-      radarChartPainter.drawTicks(mockContext, mockCanvasWrapper, holder);
-
-      expect(drawPathResult.length, 3);
-
-      // Background circle
-      expect(drawPathResult[0]['paint_color'], MockData.color2);
-      expect(drawPathResult[0]['paint_stroke'], 0);
-      expect(drawPathResult[0]['paint_style'], PaintingStyle.fill);
-
-      // Border circle
-      expect(drawPathResult[1]['paint_color'], MockData.color6);
-      expect(drawPathResult[1]['paint_stroke'], 33);
-      expect(drawPathResult[1]['paint_style'], PaintingStyle.stroke);
-
-      // First Tick
-      expect(drawPathResult[2]['paint_color'], MockData.color5);
-      expect(drawPathResult[2]['paint_stroke'], 55);
-      expect(drawPathResult[2]['paint_style'], PaintingStyle.stroke);
-
-      final result = verify(mockCanvasWrapper.drawText(captureAny, captureAny));
+      final result =
+          verify(_mockCanvasWrapper.drawText(captureAny, captureAny));
       expect(result.callCount, 1);
       final tp = result.captured[0] as TextPainter;
       expect((tp.text as TextSpan).text, '1.0');
@@ -274,17 +145,17 @@ void main() {
       final RadarChartPainter radarChartPainter = RadarChartPainter();
       final holder = PaintHolder<RadarChartData>(data, data, 1.0);
 
-      final mockCanvasWrapper = MockCanvasWrapper();
-      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      final mockUtils = MockUtils();
-      when(mockUtils.getThemeAwareTextStyle(any, any))
+      final _mockUtils = MockUtils();
+      when(_mockUtils.getThemeAwareTextStyle(any, any))
           .thenReturn(MockData.textStyle1);
-      Utils.changeInstance(mockUtils);
+      Utils.changeInstance(_mockUtils);
 
       List<Map<String, dynamic>> drawLineResults = [];
-      when(mockCanvasWrapper.drawLine(captureAny, captureAny, captureAny))
+      when(_mockCanvasWrapper.drawLine(captureAny, captureAny, captureAny))
           .thenAnswer((inv) {
         drawLineResults.add({
           'offset_from': inv.positionalArguments[0] as Offset,
@@ -295,7 +166,7 @@ void main() {
         });
       });
 
-      radarChartPainter.drawGrids(mockCanvasWrapper, holder);
+      radarChartPainter.drawGrids(_mockCanvasWrapper, holder);
       expect(drawLineResults.length, 3);
 
       expect(drawLineResults[0]['offset_from'], const Offset(200, 150));
@@ -353,21 +224,21 @@ void main() {
       final RadarChartPainter radarChartPainter = RadarChartPainter();
       final holder = PaintHolder<RadarChartData>(data, data, 1.0);
 
-      final mockCanvasWrapper = MockCanvasWrapper();
-      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      final mockUtils = MockUtils();
-      when(mockUtils.getThemeAwareTextStyle(any, any)).thenAnswer(
+      final _mockUtils = MockUtils();
+      when(_mockUtils.getThemeAwareTextStyle(any, any)).thenAnswer(
           (realInvocation) =>
               realInvocation.positionalArguments[1] as TextStyle);
-      Utils.changeInstance(mockUtils);
+      Utils.changeInstance(_mockUtils);
 
-      final mockContext = MockBuildContext();
+      final _mockContext = MockBuildContext();
 
-      radarChartPainter.drawTitles(mockContext, mockCanvasWrapper, holder);
+      radarChartPainter.drawTitles(_mockContext, _mockCanvasWrapper, holder);
 
-      verifyNever(mockCanvasWrapper.drawText(any, any));
+      verifyNever(_mockCanvasWrapper.drawText(any, any));
     });
 
     test('test 2', () {
@@ -391,8 +262,8 @@ void main() {
             const RadarEntry(value: 1),
           ]),
         ],
-        getTitle: (index, angle) {
-          return RadarChartTitle(text: '$index$index', angle: angle);
+        getTitle: (index) {
+          return '$index$index';
         },
         titleTextStyle: MockData.textStyle4,
         radarBorderData: const BorderSide(color: MockData.color6, width: 33),
@@ -404,33 +275,20 @@ void main() {
       final RadarChartPainter radarChartPainter = RadarChartPainter();
       final holder = PaintHolder<RadarChartData>(data, data, 1.0);
 
-      final mockCanvasWrapper = MockCanvasWrapper();
-      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      final mockUtils = MockUtils();
-      when(mockUtils.getThemeAwareTextStyle(any, any)).thenAnswer(
+      final _mockUtils = MockUtils();
+      when(_mockUtils.getThemeAwareTextStyle(any, any)).thenAnswer(
           (realInvocation) =>
               realInvocation.positionalArguments[1] as TextStyle);
-      when(mockUtils.degrees(captureAny)).thenAnswer((inv) {
-        return utilsMainInstance
-            .degrees(inv.positionalArguments.first as double);
-      });
-      Utils.changeInstance(mockUtils);
+      Utils.changeInstance(_mockUtils);
 
-      final mockContext = MockBuildContext();
+      final _mockContext = MockBuildContext();
 
       List<Map<String, dynamic>> results = [];
-      when(mockCanvasWrapper.drawRotated(
-        size: anyNamed('size'),
-        rotationOffset: anyNamed('rotationOffset'),
-        drawOffset: anyNamed('drawOffset'),
-        angle: anyNamed('angle'),
-        drawCallback: captureAnyNamed('drawCallback'),
-      )).thenAnswer((inv) {
-        (inv.namedArguments[const Symbol('drawCallback')] as void Function())();
-      });
-      when(mockCanvasWrapper.drawText(captureAny, captureAny, captureAny))
+      when(_mockCanvasWrapper.drawText(captureAny, captureAny))
           .thenAnswer((inv) {
         results.add({
           'tp_text':
@@ -442,7 +300,7 @@ void main() {
         });
       });
 
-      radarChartPainter.drawTitles(mockContext, mockCanvasWrapper, holder);
+      radarChartPainter.drawTitles(_mockContext, _mockCanvasWrapper, holder);
       expect(results.length, 3);
 
       expect(results[0]['tp_text'] as String, '00');
@@ -493,8 +351,8 @@ void main() {
             borderWidth: 1,
           ),
         ],
-        getTitle: (index, angle) {
-          return RadarChartTitle(text: '$index$index', angle: angle);
+        getTitle: (index) {
+          return '$index$index';
         },
         titleTextStyle: MockData.textStyle4,
         radarBorderData: const BorderSide(color: MockData.color6, width: 33),
@@ -506,18 +364,18 @@ void main() {
       final RadarChartPainter radarChartPainter = RadarChartPainter();
       final holder = PaintHolder<RadarChartData>(data, data, 1.0);
 
-      final mockCanvasWrapper = MockCanvasWrapper();
-      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      final mockUtils = MockUtils();
-      when(mockUtils.getThemeAwareTextStyle(any, any)).thenAnswer(
+      final _mockUtils = MockUtils();
+      when(_mockUtils.getThemeAwareTextStyle(any, any)).thenAnswer(
           (realInvocation) =>
               realInvocation.positionalArguments[1] as TextStyle);
-      Utils.changeInstance(mockUtils);
+      Utils.changeInstance(_mockUtils);
 
       List<Map<String, dynamic>> drawCircleResults = [];
-      when(mockCanvasWrapper.drawCircle(captureAny, captureAny, captureAny))
+      when(_mockCanvasWrapper.drawCircle(captureAny, captureAny, captureAny))
           .thenAnswer((inv) {
         drawCircleResults.add({
           'offset': inv.positionalArguments[0] as Offset,
@@ -527,7 +385,7 @@ void main() {
       });
 
       List<Map<String, dynamic>> drawPathResults = [];
-      when(mockCanvasWrapper.drawPath(captureAny, captureAny))
+      when(_mockCanvasWrapper.drawPath(captureAny, captureAny))
           .thenAnswer((inv) {
         drawPathResults.add({
           'path': inv.positionalArguments[0] as Path,
@@ -537,7 +395,7 @@ void main() {
         });
       });
 
-      radarChartPainter.drawDataSets(mockCanvasWrapper, holder);
+      radarChartPainter.drawDataSets(_mockCanvasWrapper, holder);
       expect(drawCircleResults.length, 9);
 
       expect(
@@ -601,173 +459,6 @@ void main() {
     });
   });
 
-  group('drawTitles()', () {
-    test('rotated titles', () {
-      const viewSize = Size(400, 300);
-
-      final RadarChartData data = RadarChartData(
-          dataSets: [
-            RadarDataSet(dataEntries: [
-              const RadarEntry(value: 1),
-              const RadarEntry(value: 2),
-              const RadarEntry(value: 3),
-            ]),
-            RadarDataSet(dataEntries: [
-              const RadarEntry(value: 3),
-              const RadarEntry(value: 1),
-              const RadarEntry(value: 2),
-            ]),
-            RadarDataSet(dataEntries: [
-              const RadarEntry(value: 2),
-              const RadarEntry(value: 3),
-              const RadarEntry(value: 1),
-            ]),
-          ],
-          radarBorderData: const BorderSide(color: MockData.color6, width: 33),
-          tickBorderData: const BorderSide(color: MockData.color5, width: 55),
-          radarBackgroundColor: MockData.color2,
-          getTitle: (index, angle) {
-            return RadarChartTitle(text: '$index-$angle', angle: angle);
-          });
-
-      final RadarChartPainter radarChartPainter = RadarChartPainter();
-      final holder = PaintHolder<RadarChartData>(data, data, 1.0);
-
-      final mockCanvasWrapper = MockCanvasWrapper();
-      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
-
-      final mockUtils = MockUtils();
-      when(mockUtils.getThemeAwareTextStyle(any, any))
-          .thenReturn(MockData.textStyle1);
-      when(mockUtils.degrees(captureAny)).thenAnswer((inv) {
-        return utilsMainInstance
-            .degrees(inv.positionalArguments.first as double);
-      });
-      Utils.changeInstance(mockUtils);
-
-      MockBuildContext mockContext = MockBuildContext();
-
-      List<Map<String, dynamic>> drawRotatedResults = [];
-      List<Map<String, dynamic>> drawTextResults = [];
-      when(mockCanvasWrapper.drawRotated(
-        size: anyNamed('size'),
-        rotationOffset: anyNamed('rotationOffset'),
-        drawOffset: anyNamed('drawOffset'),
-        angle: captureAnyNamed('angle'),
-        drawCallback: captureAnyNamed('drawCallback'),
-      )).thenAnswer((inv) {
-        drawRotatedResults.add({
-          'angle': inv.namedArguments[const Symbol('angle')],
-        });
-        (inv.namedArguments[const Symbol('drawCallback')] as void Function())();
-      });
-      when(mockCanvasWrapper.drawText(captureAny, captureAny, captureAny))
-          .thenAnswer((inv) {
-        drawTextResults.add({
-          'text':
-              (inv.positionalArguments[0] as TextPainter).text?.toPlainText(),
-          'angle': inv.positionalArguments[2] as double,
-        });
-      });
-
-      radarChartPainter.drawTitles(mockContext, mockCanvasWrapper, holder);
-
-      expect(drawRotatedResults.length, 3);
-      expect(drawTextResults.length, 3);
-
-      // Titles
-      const angle = 360.0 / 3;
-      for (var i = 0; i < drawTextResults.length; i++) {
-        expect(drawRotatedResults[i]['angle'], closeTo(angle * i, 0.001));
-        expect(drawTextResults[i]['text'], startsWith('$i'));
-        expect(drawTextResults[i]['angle'], 0);
-      }
-    });
-    test('horizontal titles by default', () {
-      const viewSize = Size(400, 300);
-
-      final RadarChartData data = RadarChartData(
-          dataSets: [
-            RadarDataSet(dataEntries: [
-              const RadarEntry(value: 1),
-              const RadarEntry(value: 2),
-              const RadarEntry(value: 3),
-            ]),
-            RadarDataSet(dataEntries: [
-              const RadarEntry(value: 3),
-              const RadarEntry(value: 1),
-              const RadarEntry(value: 2),
-            ]),
-            RadarDataSet(dataEntries: [
-              const RadarEntry(value: 2),
-              const RadarEntry(value: 3),
-              const RadarEntry(value: 1),
-            ]),
-          ],
-          radarBorderData: const BorderSide(color: MockData.color6, width: 33),
-          tickBorderData: const BorderSide(color: MockData.color5, width: 55),
-          radarBackgroundColor: MockData.color2,
-          getTitle: (index, angle) {
-            return RadarChartTitle(text: '$index-$angle');
-          });
-
-      final RadarChartPainter radarChartPainter = RadarChartPainter();
-      final holder = PaintHolder<RadarChartData>(data, data, 1.0);
-
-      final mockCanvasWrapper = MockCanvasWrapper();
-      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
-
-      final mockUtils = MockUtils();
-      when(mockUtils.getThemeAwareTextStyle(any, any))
-          .thenReturn(MockData.textStyle1);
-      when(mockUtils.degrees(captureAny)).thenAnswer((inv) {
-        return utilsMainInstance
-            .degrees(inv.positionalArguments.first as double);
-      });
-      Utils.changeInstance(mockUtils);
-
-      MockBuildContext mockContext = MockBuildContext();
-
-      List<Map<String, dynamic>> drawRotatedResults = [];
-      List<Map<String, dynamic>> drawTextResults = [];
-      when(mockCanvasWrapper.drawRotated(
-        size: anyNamed('size'),
-        rotationOffset: anyNamed('rotationOffset'),
-        drawOffset: anyNamed('drawOffset'),
-        angle: captureAnyNamed('angle'),
-        drawCallback: captureAnyNamed('drawCallback'),
-      )).thenAnswer((inv) {
-        drawRotatedResults.add({
-          'angle': inv.namedArguments[const Symbol('angle')],
-        });
-        (inv.namedArguments[const Symbol('drawCallback')] as void Function())();
-      });
-      when(mockCanvasWrapper.drawText(captureAny, captureAny, captureAny))
-          .thenAnswer((inv) {
-        drawTextResults.add({
-          'text':
-              (inv.positionalArguments[0] as TextPainter).text?.toPlainText(),
-          'angle': inv.positionalArguments[2] as double,
-        });
-      });
-
-      radarChartPainter.drawTitles(mockContext, mockCanvasWrapper, holder);
-
-      expect(drawRotatedResults.length, 3);
-      expect(drawTextResults.length, 3);
-
-      // Titles
-      const angle = 360.0 / 3;
-      for (var i = 0; i < drawTextResults.length; i++) {
-        expect(drawRotatedResults[i]['angle'], closeTo(angle * i, 0.001));
-        expect(drawTextResults[i]['text'], startsWith('$i'));
-        expect(drawTextResults[i]['angle'], closeTo(-angle * i, 0.001));
-      }
-    });
-  });
-
   group('handleTouch()', () {
     test('test 1', () {
       const viewSize = Size(400, 300);
@@ -800,18 +491,18 @@ void main() {
       final RadarChartPainter radarChartPainter = RadarChartPainter();
       final holder = PaintHolder<RadarChartData>(data, data, 1.0);
 
-      final mockCanvasWrapper = MockCanvasWrapper();
-      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
-      final mockUtils = MockUtils();
-      when(mockUtils.getThemeAwareTextStyle(any, any)).thenAnswer(
+      final _mockUtils = MockUtils();
+      when(_mockUtils.getThemeAwareTextStyle(any, any)).thenAnswer(
           (realInvocation) =>
               realInvocation.positionalArguments[1] as TextStyle);
-      Utils.changeInstance(mockUtils);
+      Utils.changeInstance(_mockUtils);
 
       List<Map<String, dynamic>> drawCircleResults = [];
-      when(mockCanvasWrapper.drawCircle(captureAny, captureAny, captureAny))
+      when(_mockCanvasWrapper.drawCircle(captureAny, captureAny, captureAny))
           .thenAnswer((inv) {
         drawCircleResults.add({
           'offset': inv.positionalArguments[0] as Offset,
@@ -821,7 +512,7 @@ void main() {
       });
 
       List<Map<String, dynamic>> drawPathResults = [];
-      when(mockCanvasWrapper.drawPath(captureAny, captureAny))
+      when(_mockCanvasWrapper.drawPath(captureAny, captureAny))
           .thenAnswer((inv) {
         drawPathResults.add({
           'path': inv.positionalArguments[0] as Path,

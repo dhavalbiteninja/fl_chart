@@ -14,43 +14,19 @@ import 'pie_chart_painter_test.mocks.dart';
 
 @GenerateMocks([Canvas, CanvasWrapper, BuildContext, Utils])
 void main() {
-  group('paint()', () {
+  group('PieChart usable size', () {
     test('test 1', () {
-      final utilsMainInstance = Utils();
-      const viewSize = Size(400, 400);
-      final PieChartData data = PieChartData(sections: [
-        PieChartSectionData(
-          value: 10,
-        ),
-        PieChartSectionData(
-          value: 20,
-        ),
-        PieChartSectionData(
-          value: 30,
-        ),
+      const viewSize = Size(728, 728);
+
+      final data = PieChartData(sections: [
+        PieChartSectionData(),
+        PieChartSectionData(),
+        PieChartSectionData(),
       ]);
-
-      final pieChartPainter = PieChartPainter();
+      final barChartPainter = PieChartPainter();
       final holder = PaintHolder<PieChartData>(data, data, 1.0);
-
-      MockUtils mockUtils = MockUtils();
-      Utils.changeInstance(mockUtils);
-      when(mockUtils.getThemeAwareTextStyle(any, any))
-          .thenAnswer((realInvocation) => textStyle1);
-      when(mockUtils.radians(any)).thenAnswer((realInvocation) => 12);
-
-      final mockBuildContext = MockBuildContext();
-      MockCanvasWrapper mockCanvasWrapper = MockCanvasWrapper();
-      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
-      pieChartPainter.paint(
-        mockBuildContext,
-        mockCanvasWrapper,
-        holder,
-      );
-
-      verify(mockCanvasWrapper.drawPath(any, any)).called(3);
-      Utils.changeInstance(utilsMainInstance);
+      expect(barChartPainter.getChartUsableDrawSize(viewSize, holder),
+          const Size(728, 728));
     });
   });
 
@@ -93,13 +69,13 @@ void main() {
       final PieChartPainter barChartPainter = PieChartPainter();
       final holder = PaintHolder<PieChartData>(data, data, 1.0);
 
-      final mockCanvasWrapper = MockCanvasWrapper();
-      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
-      barChartPainter.drawCenterSpace(mockCanvasWrapper, 10, holder);
+      final _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      barChartPainter.drawCenterSpace(_mockCanvasWrapper, 10, holder);
 
-      final result = verify(
-          mockCanvasWrapper.drawCircle(const Offset(100, 100), 10, captureAny));
+      final result = verify(_mockCanvasWrapper.drawCircle(
+          const Offset(100, 100), 10, captureAny));
       expect(result.callCount, 1);
       expect((result.captured.first as Paint).color, MockData.color1);
     });
@@ -110,14 +86,7 @@ void main() {
       const viewSize = Size(200, 200);
 
       final sections = [
-        PieChartSectionData(
-            color: MockData.color2,
-            radius: 30,
-            value: 10,
-            borderSide: const BorderSide(
-              color: MockData.color3,
-              width: 3,
-            ))
+        PieChartSectionData(color: MockData.color2, radius: 30, value: 10)
       ];
       final PieChartData data = PieChartData(
         sections: sections,
@@ -126,34 +95,17 @@ void main() {
       final PieChartPainter barChartPainter = PieChartPainter();
       final holder = PaintHolder<PieChartData>(data, data, 1.0);
 
-      final mockCanvasWrapper = MockCanvasWrapper();
-      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
-      barChartPainter.drawSections(mockCanvasWrapper, [360], 10, holder);
+      final _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      barChartPainter.drawSections(_mockCanvasWrapper, [360], 10, holder);
 
-      final result = verify(
-        mockCanvasWrapper.drawCircle(
-          const Offset(100, 100),
-          10 + 15,
-          captureAny,
-        ),
-      );
+      final result = verify(_mockCanvasWrapper.drawCircle(
+          const Offset(100, 100), 10 + 15, captureAny));
       expect(result.callCount, 1);
       expect((result.captured.single as Paint).color, MockData.color2);
       expect((result.captured.single as Paint).strokeWidth, 30);
       expect((result.captured.single as Paint).style, PaintingStyle.stroke);
-
-      final result2 = verify(
-        mockCanvasWrapper.drawCircle(
-          const Offset(100, 100),
-          10 + 30 - (3 / 2),
-          captureAny,
-        ),
-      );
-      expect(result2.callCount, 1);
-      expect((result2.captured.single as Paint).color, MockData.color3);
-      expect((result2.captured.single as Paint).strokeWidth, 3);
-      expect((result2.captured.single as Paint).style, PaintingStyle.stroke);
     });
 
     test('test 2', () {
@@ -172,11 +124,11 @@ void main() {
       final PieChartPainter barChartPainter = PieChartPainter();
       final holder = PaintHolder<PieChartData>(data, data, 1.0);
 
-      final mockCanvasWrapper = MockCanvasWrapper();
-      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
       List<Map<String, dynamic>> results = [];
-      when(mockCanvasWrapper.drawPath(captureAny, captureAny))
+      when(_mockCanvasWrapper.drawPath(captureAny, captureAny))
           .thenAnswer((inv) {
         final paint = inv.positionalArguments[1] as Paint;
         results.add({
@@ -187,8 +139,8 @@ void main() {
       });
 
       barChartPainter.drawSections(
-          mockCanvasWrapper, [36, 72, 108, 144], 10, holder);
-      verifyNever(mockCanvasWrapper.drawCircle(any, any, any));
+          _mockCanvasWrapper, [36, 72, 108, 144], 10, holder);
+      verifyNever(_mockCanvasWrapper.drawCircle(any, any, any));
 
       expect(results.length, 4);
 
@@ -408,12 +360,12 @@ void main() {
           ]);
       final PieChartPainter barChartPainter = PieChartPainter();
 
-      final mockCanvasWrapper = MockCanvasWrapper();
-      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
       List<Map<String, dynamic>> results = [];
-      when(mockCanvasWrapper.drawPath(captureAny, captureAny))
+      when(_mockCanvasWrapper.drawPath(captureAny, captureAny))
           .thenAnswer((inv) {
         final paint = inv.positionalArguments[1] as Paint;
         results.add({
@@ -424,13 +376,13 @@ void main() {
       });
 
       barChartPainter.drawSection(
-          data.sections[0], MockData.path1, mockCanvasWrapper);
+          data.sections[0], MockData.path1, _mockCanvasWrapper);
       barChartPainter.drawSection(
-          data.sections[1], MockData.path2, mockCanvasWrapper);
+          data.sections[1], MockData.path2, _mockCanvasWrapper);
       barChartPainter.drawSection(
-          data.sections[2], MockData.path3, mockCanvasWrapper);
+          data.sections[2], MockData.path3, _mockCanvasWrapper);
       barChartPainter.drawSection(
-          data.sections[3], MockData.path4, mockCanvasWrapper);
+          data.sections[3], MockData.path4, _mockCanvasWrapper);
 
       expect(results.length, 4);
 
@@ -466,12 +418,12 @@ void main() {
           ]);
       final PieChartPainter barChartPainter = PieChartPainter();
 
-      final mockCanvasWrapper = MockCanvasWrapper();
-      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
       List<Map<String, dynamic>> results = [];
-      when(mockCanvasWrapper.drawPath(captureAny, captureAny))
+      when(_mockCanvasWrapper.drawPath(captureAny, captureAny))
           .thenAnswer((inv) {
         final paint = inv.positionalArguments[1] as Paint;
         results.add({
@@ -482,18 +434,18 @@ void main() {
       });
 
       barChartPainter.drawSectionStroke(
-          data.sections[0], MockData.path1, mockCanvasWrapper, viewSize);
+          data.sections[0], MockData.path1, _mockCanvasWrapper, viewSize);
       barChartPainter.drawSectionStroke(
-          data.sections[1], MockData.path2, mockCanvasWrapper, viewSize);
+          data.sections[1], MockData.path2, _mockCanvasWrapper, viewSize);
       barChartPainter.drawSectionStroke(
-          data.sections[2], MockData.path3, mockCanvasWrapper, viewSize);
+          data.sections[2], MockData.path3, _mockCanvasWrapper, viewSize);
       barChartPainter.drawSectionStroke(
-          data.sections[3], MockData.path4, mockCanvasWrapper, viewSize);
+          data.sections[3], MockData.path4, _mockCanvasWrapper, viewSize);
 
-      verifyNever(mockCanvasWrapper.saveLayer(any, any));
-      verifyNever(mockCanvasWrapper.clipPath(any));
-      verifyNever(mockCanvasWrapper.drawPath(any, any));
-      verifyNever(mockCanvasWrapper.restore());
+      verifyNever(_mockCanvasWrapper.saveLayer(any, any));
+      verifyNever(_mockCanvasWrapper.clipPath(any));
+      verifyNever(_mockCanvasWrapper.drawPath(any, any));
+      verifyNever(_mockCanvasWrapper.restore());
     });
 
     test('test 2', () {
@@ -522,19 +474,19 @@ void main() {
       );
       final PieChartPainter barChartPainter = PieChartPainter();
 
-      final mockCanvasWrapper = MockCanvasWrapper();
-      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
-      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+      final _mockCanvasWrapper = MockCanvasWrapper();
+      when(_mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(_mockCanvasWrapper.canvas).thenReturn(MockCanvas());
 
       List<Map<String, dynamic>> clipPathResults = [];
-      when(mockCanvasWrapper.clipPath(captureAny)).thenAnswer((inv) {
+      when(_mockCanvasWrapper.clipPath(captureAny)).thenAnswer((inv) {
         clipPathResults.add({
           'path': inv.positionalArguments[0] as Path,
         });
       });
 
       List<Map<String, dynamic>> drawPathResults = [];
-      when(mockCanvasWrapper.drawPath(captureAny, captureAny))
+      when(_mockCanvasWrapper.drawPath(captureAny, captureAny))
           .thenAnswer((inv) {
         final paint = inv.positionalArguments[1] as Paint;
         drawPathResults.add({
@@ -546,15 +498,15 @@ void main() {
       });
 
       barChartPainter.drawSectionStroke(
-          data.sections[0], MockData.path1, mockCanvasWrapper, viewSize);
+          data.sections[0], MockData.path1, _mockCanvasWrapper, viewSize);
       barChartPainter.drawSectionStroke(
-          data.sections[1], MockData.path2, mockCanvasWrapper, viewSize);
+          data.sections[1], MockData.path2, _mockCanvasWrapper, viewSize);
       barChartPainter.drawSectionStroke(
-          data.sections[2], MockData.path3, mockCanvasWrapper, viewSize);
+          data.sections[2], MockData.path3, _mockCanvasWrapper, viewSize);
       barChartPainter.drawSectionStroke(
-          data.sections[3], MockData.path4, mockCanvasWrapper, viewSize);
+          data.sections[3], MockData.path4, _mockCanvasWrapper, viewSize);
 
-      verify(mockCanvasWrapper.saveLayer(
+      verify(_mockCanvasWrapper.saveLayer(
               Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), any))
           .called(4);
       expect(clipPathResults.length, 4);
@@ -589,7 +541,7 @@ void main() {
       expect(drawPathResults[3]['paint_stroke_width'],
           MockData.borderSide4.width * 2);
 
-      verify(mockCanvasWrapper.restore()).called(4);
+      verify(_mockCanvasWrapper.restore()).called(4);
     });
   });
 

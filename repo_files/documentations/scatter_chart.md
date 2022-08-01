@@ -49,7 +49,6 @@ When you change the chart's state, it animates to the new state internally (usin
 |PropName|Description|default value|
 |:-------|:----------|:------------|
 |tooltipBgColor|background color of the tooltip bubble|Colors.white|
-|tooltipBorder|border of the tooltip bubble|BorderSide.none|
 |tooltipRoundedRadius|background corner radius of the tooltip bubble|4|
 |tooltipPadding|padding of the tooltip|EdgeInsets.symmetric(horizontal: 16, vertical: 8)|
 |maxContentWidth|maximum width of the tooltip (if a text row is wider than this, then the text breaks to a new line|120|
@@ -78,14 +77,6 @@ When you change the chart's state, it animates to the new state internally (usin
 |:-------|:----------|:------------|
 |spot|touched [ScatterSpot](#ScatterSpot)|null|
 |spotIndex|index of touched [ScatterSpot](#ScatterSpot)|null|
-
-### ScatterLabelSettings
-|PropName|Description|default value|
-|:-------|:----------|:------------|
-|showLabel|Determines whether to show or hide the labels.|false|
-|getLabelTextStyleFunction|This function gives you the index value of the spot in the list and returns the text style.|null|
-|getLabelFunction|This function gives you the index value of the spot in the list and returns the label.|spot.radius.toString()|
-|textDirection|Determines the direction of the text for the labels.|TextDirection.ltr|
 
 ### some samples
 ----

@@ -46,17 +46,23 @@ class _LineChart extends StatelessWidget {
       );
 
   FlTitlesData get titlesData1 => FlTitlesData(
-        bottomTitles: AxisTitles(
-          sideTitles: bottomTitles,
-        ),
-        rightTitles: AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        topTitles: AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        leftTitles: AxisTitles(
-          sideTitles: leftTitles(),
+        bottomTitles: bottomTitles,
+        rightTitles: SideTitles(showTitles: false),
+        topTitles: SideTitles(showTitles: false),
+        leftTitles: leftTitles(
+          getTitles: (value) {
+            switch (value.toInt()) {
+              case 1:
+                return '1m';
+              case 2:
+                return '2m';
+              case 3:
+                return '3m';
+              case 4:
+                return '5m';
+            }
+            return '';
+          },
         ),
       );
 
@@ -71,17 +77,25 @@ class _LineChart extends StatelessWidget {
       );
 
   FlTitlesData get titlesData2 => FlTitlesData(
-        bottomTitles: AxisTitles(
-          sideTitles: bottomTitles,
-        ),
-        rightTitles: AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        topTitles: AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        leftTitles: AxisTitles(
-          sideTitles: leftTitles(),
+        bottomTitles: bottomTitles,
+        rightTitles: SideTitles(showTitles: false),
+        topTitles: SideTitles(showTitles: false),
+        leftTitles: leftTitles(
+          getTitles: (value) {
+            switch (value.toInt()) {
+              case 1:
+                return '1m';
+              case 2:
+                return '2m';
+              case 3:
+                return '3m';
+              case 4:
+                return '5m';
+              case 5:
+                return '6m';
+            }
+            return '';
+          },
         ),
       );
 
@@ -91,77 +105,40 @@ class _LineChart extends StatelessWidget {
         lineChartBarData2_3,
       ];
 
-  Widget leftTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(
-      color: Color(0xff75729e),
-      fontWeight: FontWeight.bold,
-      fontSize: 14,
-    );
-    String text;
-    switch (value.toInt()) {
-      case 1:
-        text = '1m';
-        break;
-      case 2:
-        text = '2m';
-        break;
-      case 3:
-        text = '3m';
-        break;
-      case 4:
-        text = '5m';
-        break;
-      case 5:
-        text = '6m';
-        break;
-      default:
-        return Container();
-    }
-
-    return Text(text, style: style, textAlign: TextAlign.center);
-  }
-
-  SideTitles leftTitles() => SideTitles(
-        getTitlesWidget: leftTitleWidgets,
+  SideTitles leftTitles({required GetTitleFunction getTitles}) => SideTitles(
+        getTitles: getTitles,
         showTitles: true,
+        margin: 8,
         interval: 1,
         reservedSize: 40,
+        getTextStyles: (context, value) => const TextStyle(
+          color: Color(0xff75729e),
+          fontWeight: FontWeight.bold,
+          fontSize: 14,
+        ),
       );
-
-  Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(
-      color: Color(0xff72719b),
-      fontWeight: FontWeight.bold,
-      fontSize: 16,
-    );
-    Widget text;
-    switch (value.toInt()) {
-      case 2:
-        text = const Text('SEPT', style: style);
-        break;
-      case 7:
-        text = const Text('OCT', style: style);
-        break;
-      case 12:
-        text = const Text('DEC', style: style);
-        break;
-      default:
-        text = const Text('');
-        break;
-    }
-
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      space: 10,
-      child: text,
-    );
-  }
 
   SideTitles get bottomTitles => SideTitles(
         showTitles: true,
-        reservedSize: 32,
+        reservedSize: 22,
+        margin: 10,
         interval: 1,
-        getTitlesWidget: bottomTitleWidgets,
+        getTextStyles: (context, value) => const TextStyle(
+          color: Color(0xff72719b),
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
+        ),
+        getTitles: (value) {
+          switch (value.toInt()) {
+            case 2:
+              return 'SEPT';
+            case 7:
+              return 'OCT';
+            case 12:
+              return 'DEC';
+          }
+          return '';
+        },
       );
 
   FlGridData get gridData => FlGridData(show: false);
@@ -178,7 +155,7 @@ class _LineChart extends StatelessWidget {
 
   LineChartBarData get lineChartBarData1_1 => LineChartBarData(
         isCurved: true,
-        color: const Color(0xff4af699),
+        colors: [const Color(0xff4af699)],
         barWidth: 8,
         isStrokeCapRound: true,
         dotData: FlDotData(show: false),
@@ -196,14 +173,13 @@ class _LineChart extends StatelessWidget {
 
   LineChartBarData get lineChartBarData1_2 => LineChartBarData(
         isCurved: true,
-        color: const Color(0xffaa4cfc),
+        colors: [const Color(0xffaa4cfc)],
         barWidth: 8,
         isStrokeCapRound: true,
         dotData: FlDotData(show: false),
-        belowBarData: BarAreaData(
-          show: false,
-          color: const Color(0x00aa4cfc),
-        ),
+        belowBarData: BarAreaData(show: false, colors: [
+          const Color(0x00aa4cfc),
+        ]),
         spots: const [
           FlSpot(1, 1),
           FlSpot(3, 2.8),
@@ -216,7 +192,7 @@ class _LineChart extends StatelessWidget {
 
   LineChartBarData get lineChartBarData1_3 => LineChartBarData(
         isCurved: true,
-        color: const Color(0xff27b6fc),
+        colors: const [Color(0xff27b6fc)],
         barWidth: 8,
         isStrokeCapRound: true,
         dotData: FlDotData(show: false),
@@ -233,7 +209,7 @@ class _LineChart extends StatelessWidget {
   LineChartBarData get lineChartBarData2_1 => LineChartBarData(
         isCurved: true,
         curveSmoothness: 0,
-        color: const Color(0x444af699),
+        colors: const [Color(0x444af699)],
         barWidth: 4,
         isStrokeCapRound: true,
         dotData: FlDotData(show: false),
@@ -251,13 +227,15 @@ class _LineChart extends StatelessWidget {
 
   LineChartBarData get lineChartBarData2_2 => LineChartBarData(
         isCurved: true,
-        color: const Color(0x99aa4cfc),
+        colors: const [Color(0x99aa4cfc)],
         barWidth: 4,
         isStrokeCapRound: true,
         dotData: FlDotData(show: false),
         belowBarData: BarAreaData(
           show: true,
-          color: const Color(0x33aa4cfc),
+          colors: [
+            const Color(0x33aa4cfc),
+          ],
         ),
         spots: const [
           FlSpot(1, 1),
@@ -272,7 +250,7 @@ class _LineChart extends StatelessWidget {
   LineChartBarData get lineChartBarData2_3 => LineChartBarData(
         isCurved: true,
         curveSmoothness: 0,
-        color: const Color(0x4427b6fc),
+        colors: const [Color(0x4427b6fc)],
         barWidth: 2,
         isStrokeCapRound: true,
         dotData: FlDotData(show: true),

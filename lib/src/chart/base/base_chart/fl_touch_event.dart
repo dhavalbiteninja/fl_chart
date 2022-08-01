@@ -1,4 +1,3 @@
-// coverage:ignore-file
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';

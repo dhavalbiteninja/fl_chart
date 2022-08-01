@@ -15,10 +15,10 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
 
   List<RadarDataSetsPosition>? dataSetsPosition;
 
-  /// Paints [dataList] into canvas, it is the animating [RadarChartData],
+  /// Paints [data] into canvas, it is the animating [RadarChartData],
   /// [targetData] is the animation's target and remains the same
   /// during animation, then we should use it  when we need to show
-  /// tooltips or something like that, because [dataList] is changing constantly.
+  /// tooltips or something like that, because [data] is changing constantly.
   ///
   /// [textScale] used for scaling texts inside the chart,
   /// parent can use [MediaQuery.textScaleFactor] to respect
@@ -75,36 +75,26 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
 
     _backgroundPaint.color = data.radarBackgroundColor;
 
+    /// draw radar background
+    canvasWrapper.drawCircle(centerOffset, radius, _backgroundPaint);
+
     _borderPaint
       ..color = data.radarBorderData.color
       ..strokeWidth = data.radarBorderData.width;
 
-    if (data.radarShape == RadarShape.circle) {
-      /// draw radar background
-      canvasWrapper.drawCircle(centerOffset, radius, _backgroundPaint);
-
-      /// draw radar border
-      canvasWrapper.drawCircle(centerOffset, radius, _borderPaint);
-    } else {
-      final path =
-          _generatePolygonPath(centerX, centerY, radius, data.titleCount);
-
-      /// draw radar background
-      canvasWrapper.drawPath(path, _backgroundPaint);
-
-      /// draw radar border
-      canvasWrapper.drawPath(path, _borderPaint);
-    }
+    /// draw radar border
+    canvasWrapper.drawCircle(centerOffset, radius, _borderPaint);
 
     final dataSetMaxValue = data.maxEntry.value;
     final dataSetMinValue = data.minEntry.value;
     final tickSpace = (dataSetMaxValue - dataSetMinValue) / data.tickCount;
-    final ticks = <double>[];
-    double tickValue = dataSetMinValue;
 
-    for (var i = 0; i <= data.tickCount; i++) {
-      ticks.add(tickValue);
-      tickValue += tickSpace;
+    final ticks = <double>[];
+
+    for (var tick = dataSetMinValue;
+        tick <= dataSetMaxValue;
+        tick = tick + tickSpace) {
+      ticks.add(tick);
     }
 
     final tickDistance = radius / (ticks.length);
@@ -117,15 +107,8 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
     ticks.sublist(0, ticks.length - 1).asMap().forEach(
       (index, tick) {
         final tickRadius = tickDistance * (index + 1);
-        if (data.radarShape == RadarShape.circle) {
-          canvasWrapper.drawCircle(centerOffset, tickRadius, _tickPaint);
-        } else {
-          canvasWrapper.drawPath(
-            _generatePolygonPath(centerX, centerY, tickRadius, data.titleCount),
-            _tickPaint,
-          );
-        }
 
+        canvasWrapper.drawCircle(centerOffset, tickRadius, _tickPaint);
         _ticksTextPaint
           ..text = TextSpan(
             text: tick.toStringAsFixed(1),
@@ -139,20 +122,6 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
         );
       },
     );
-  }
-
-  Path _generatePolygonPath(
-      double centerX, double centerY, double radius, int count) {
-    final path = Path();
-    path.moveTo(centerX, centerY - radius);
-    final angle = (2 * pi) / count;
-    for (var index = 0; index < count; index++) {
-      final xAngle = cos(angle * index - pi / 2);
-      final yAngle = sin(angle * index - pi / 2);
-      path.lineTo(centerX + radius * xAngle, centerY + radius * yAngle);
-    }
-    path.lineTo(centerX, centerY - radius);
-    return path;
   }
 
   void drawGrids(
@@ -197,7 +166,7 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
     /// controls Radar chart size
     final radius = radarRadius(size);
 
-    final diffAngle = (2 * pi) / data.titleCount;
+    final angle = (2 * pi) / data.titleCount;
 
     final style = Utils().getThemeAwareTextStyle(context, data.titleTextStyle);
 
@@ -207,43 +176,30 @@ class RadarChartPainter extends BaseChartPainter<RadarChartData> {
       ..textScaleFactor = holder.textScale;
 
     for (var index = 0; index < data.titleCount; index++) {
-      final baseTitleAngle = Utils().degrees(diffAngle * index);
-      final title = data.getTitle!(index, baseTitleAngle);
-      final span = TextSpan(text: title.text, style: style);
+      final title = data.getTitle!(index);
+      final xAngle = cos(angle * index - pi / 2);
+      final yAngle = sin(angle * index - pi / 2);
+
+      final span = TextSpan(text: title, style: style);
       _titleTextPaint.text = span;
       _titleTextPaint.layout();
-      final angle = diffAngle * index - pi / 2;
-      final threshold = 1.0 + data.titlePositionPercentageOffset;
-      final titleX = centerX +
-          cos(angle) * (radius * threshold + (_titleTextPaint.height / 2));
-      final titleY = centerY +
-          sin(angle) * (radius * threshold + (_titleTextPaint.height / 2));
-
-      Rect rect = Rect.fromLTWH(
-        titleX,
-        titleY,
-        _titleTextPaint.width,
-        _titleTextPaint.height,
+      canvasWrapper.save();
+      final titlePositionPercentageOffset = data.titlePositionPercentageOffset;
+      final threshold = 1.0 + titlePositionPercentageOffset;
+      final featureOffset = Offset(
+        centerX + threshold * radius * xAngle,
+        centerY + threshold * radius * yAngle,
       );
-      final rectDrawOffset = Offset(rect.left, rect.top);
+      canvasWrapper.translate(featureOffset.dx, featureOffset.dy);
+      canvasWrapper.rotate(angle * index);
 
-      final drawTitleDegrees = (angle * 180 / pi) + 90;
-      canvasWrapper.drawRotated(
-        size: rect.size,
-        rotationOffset: Offset(
-          -rect.width / 2,
-          -rect.height / 2,
-        ),
-        drawOffset: rectDrawOffset,
-        angle: drawTitleDegrees,
-        drawCallback: () {
-          canvasWrapper.drawText(
-            _titleTextPaint,
-            rect.topLeft,
-            title.angle - baseTitleAngle,
-          );
-        },
+      // Todo: We need to refactor and use [CanvasWrapper.drawRotated()]
+      canvasWrapper.drawText(
+        _titleTextPaint,
+        Offset.zero -
+            Offset(_titleTextPaint.width / 2, _titleTextPaint.height / 2),
       );
+      canvasWrapper.restore();
     }
   }
 

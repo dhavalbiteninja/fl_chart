@@ -93,7 +93,10 @@ class _LineChartSample10State extends State<LineChartSample10> {
                       cosLine(cosPoints),
                     ],
                     titlesData: FlTitlesData(
-                      show: false,
+                      show: true,
+                      bottomTitles: SideTitles(
+                        showTitles: false,
+                      ),
                     ),
                   ),
                 ),
@@ -109,11 +112,8 @@ class _LineChartSample10State extends State<LineChartSample10> {
       dotData: FlDotData(
         show: false,
       ),
-      gradient: LinearGradient(
-          colors: [sinColor.withOpacity(0), sinColor],
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-          stops: const [0.1, 1.0]),
+      colors: [sinColor.withOpacity(0), sinColor],
+      colorStops: [0.1, 1.0],
       barWidth: 4,
       isCurved: false,
     );
@@ -125,11 +125,8 @@ class _LineChartSample10State extends State<LineChartSample10> {
       dotData: FlDotData(
         show: false,
       ),
-      gradient: LinearGradient(
-          colors: [sinColor.withOpacity(0), sinColor],
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-          stops: const [0.1, 1.0]),
+      colors: [cosColor.withOpacity(0), cosColor],
+      colorStops: [0.1, 1.0],
       barWidth: 4,
       isCurved: false,
     );

@@ -117,7 +117,7 @@ class BarChartSample2State extends State<BarChartSample2> {
                               for (var rod
                                   in showingBarGroups[touchedGroupIndex]
                                       .barRods) {
-                                sum += rod.toY;
+                                sum += rod.y;
                               }
                               final avg = sum /
                                   showingBarGroups[touchedGroupIndex]
@@ -129,7 +129,7 @@ class BarChartSample2State extends State<BarChartSample2> {
                                 barRods: showingBarGroups[touchedGroupIndex]
                                     .barRods
                                     .map((rod) {
-                                  return rod.copyWith(toY: avg);
+                                  return rod.copyWith(y: avg);
                                 }).toList(),
                               );
                             }
@@ -137,26 +137,56 @@ class BarChartSample2State extends State<BarChartSample2> {
                         }),
                     titlesData: FlTitlesData(
                       show: true,
-                      rightTitles: AxisTitles(
-                        sideTitles: SideTitles(showTitles: false),
+                      rightTitles: SideTitles(showTitles: false),
+                      topTitles: SideTitles(showTitles: false),
+                      bottomTitles: SideTitles(
+                        showTitles: true,
+                        getTextStyles: (context, value) => const TextStyle(
+                            color: Color(0xff7589a2),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14),
+                        margin: 20,
+                        getTitles: (double value) {
+                          switch (value.toInt()) {
+                            case 0:
+                              return 'Mn';
+                            case 1:
+                              return 'Te';
+                            case 2:
+                              return 'Wd';
+                            case 3:
+                              return 'Tu';
+                            case 4:
+                              return 'Fr';
+                            case 5:
+                              return 'St';
+                            case 6:
+                              return 'Sn';
+                            default:
+                              return '';
+                          }
+                        },
                       ),
-                      topTitles: AxisTitles(
-                        sideTitles: SideTitles(showTitles: false),
-                      ),
-                      bottomTitles: AxisTitles(
-                        sideTitles: SideTitles(
-                          showTitles: true,
-                          getTitlesWidget: bottomTitles,
-                          reservedSize: 42,
-                        ),
-                      ),
-                      leftTitles: AxisTitles(
-                        sideTitles: SideTitles(
-                          showTitles: true,
-                          reservedSize: 28,
-                          interval: 1,
-                          getTitlesWidget: leftTitles,
-                        ),
+                      leftTitles: SideTitles(
+                        showTitles: true,
+                        getTextStyles: (context, value) => const TextStyle(
+                            color: Color(0xff7589a2),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14),
+                        margin: 8,
+                        reservedSize: 28,
+                        interval: 1,
+                        getTitles: (value) {
+                          if (value == 0) {
+                            return '1K';
+                          } else if (value == 10) {
+                            return '5K';
+                          } else if (value == 19) {
+                            return '10K';
+                          } else {
+                            return '';
+                          }
+                        },
                       ),
                     ),
                     borderData: FlBorderData(
@@ -177,58 +207,16 @@ class BarChartSample2State extends State<BarChartSample2> {
     );
   }
 
-  Widget leftTitles(double value, TitleMeta meta) {
-    const style = TextStyle(
-      color: Color(0xff7589a2),
-      fontWeight: FontWeight.bold,
-      fontSize: 14,
-    );
-    String text;
-    if (value == 0) {
-      text = '1K';
-    } else if (value == 10) {
-      text = '5K';
-    } else if (value == 19) {
-      text = '10K';
-    } else {
-      return Container();
-    }
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      space: 0,
-      child: Text(text, style: style),
-    );
-  }
-
-  Widget bottomTitles(double value, TitleMeta meta) {
-    List<String> titles = ["Mn", "Te", "Wd", "Tu", "Fr", "St", "Su"];
-
-    Widget text = Text(
-      titles[value.toInt()],
-      style: const TextStyle(
-        color: Color(0xff7589a2),
-        fontWeight: FontWeight.bold,
-        fontSize: 14,
-      ),
-    );
-
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      space: 16, //margin top
-      child: text,
-    );
-  }
-
   BarChartGroupData makeGroupData(int x, double y1, double y2) {
     return BarChartGroupData(barsSpace: 4, x: x, barRods: [
       BarChartRodData(
-        toY: y1,
-        color: leftBarColor,
+        y: y1,
+        colors: [leftBarColor],
         width: width,
       ),
       BarChartRodData(
-        toY: y2,
-        color: rightBarColor,
+        y: y2,
+        colors: [rightBarColor],
         width: width,
       ),
     ]);

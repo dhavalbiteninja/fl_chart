@@ -4,73 +4,6 @@ import 'package:flutter/material.dart';
 class LineChartSample7 extends StatelessWidget {
   const LineChartSample7({Key? key}) : super(key: key);
 
-  Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(
-      fontSize: 10,
-      color: Colors.purple,
-      fontWeight: FontWeight.bold,
-    );
-    String text;
-    switch (value.toInt()) {
-      case 0:
-        text = 'Jan';
-        break;
-      case 1:
-        text = 'Feb';
-        break;
-      case 2:
-        text = 'Mar';
-        break;
-      case 3:
-        text = 'Apr';
-        break;
-      case 4:
-        text = 'May';
-        break;
-      case 5:
-        text = 'Jun';
-        break;
-      case 6:
-        text = 'Jul';
-        break;
-      case 7:
-        text = 'Aug';
-        break;
-      case 8:
-        text = 'Sep';
-        break;
-      case 9:
-        text = 'Oct';
-        break;
-      case 10:
-        text = 'Nov';
-        break;
-      case 11:
-        text = 'Dec';
-        break;
-      default:
-        return Container();
-    }
-
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      space: 4,
-      child: Text(text, style: style),
-    );
-  }
-
-  Widget leftTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(fontSize: 10);
-
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      child: Text(
-        '\$ ${value + 0.5}',
-        style: style,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
@@ -98,7 +31,9 @@ class LineChartSample7 extends StatelessWidget {
                 ],
                 isCurved: true,
                 barWidth: 2,
-                color: Colors.green,
+                colors: [
+                  Colors.green,
+                ],
                 dotData: FlDotData(
                   show: false,
                 ),
@@ -120,7 +55,9 @@ class LineChartSample7 extends StatelessWidget {
                 ],
                 isCurved: true,
                 barWidth: 2,
-                color: Colors.black,
+                colors: [
+                  Colors.black,
+                ],
                 dotData: FlDotData(
                   show: false,
                 ),
@@ -142,7 +79,9 @@ class LineChartSample7 extends StatelessWidget {
                 ],
                 isCurved: false,
                 barWidth: 2,
-                color: Colors.red,
+                colors: [
+                  Colors.red,
+                ],
                 dotData: FlDotData(
                   show: false,
                 ),
@@ -152,32 +91,60 @@ class LineChartSample7 extends StatelessWidget {
               BetweenBarsData(
                 fromIndex: 0,
                 toIndex: 2,
-                color: Colors.red.withOpacity(0.3),
+                colors: [Colors.red.withOpacity(0.3)],
               )
             ],
             minY: 0,
             titlesData: FlTitlesData(
-              bottomTitles: AxisTitles(
-                sideTitles: SideTitles(
+              bottomTitles: SideTitles(
                   showTitles: true,
                   interval: 1,
-                  getTitlesWidget: bottomTitleWidgets,
-                ),
+                  getTextStyles: (context, value) => const TextStyle(
+                      fontSize: 10,
+                      color: Colors.purple,
+                      fontWeight: FontWeight.bold),
+                  getTitles: (value) {
+                    switch (value.toInt()) {
+                      case 0:
+                        return 'Jan';
+                      case 1:
+                        return 'Feb';
+                      case 2:
+                        return 'Mar';
+                      case 3:
+                        return 'Apr';
+                      case 4:
+                        return 'May';
+                      case 5:
+                        return 'Jun';
+                      case 6:
+                        return 'Jul';
+                      case 7:
+                        return 'Aug';
+                      case 8:
+                        return 'Sep';
+                      case 9:
+                        return 'Oct';
+                      case 10:
+                        return 'Nov';
+                      case 11:
+                        return 'Dec';
+                      default:
+                        return '';
+                    }
+                  }),
+              leftTitles: SideTitles(
+                showTitles: true,
+                getTitles: (value) {
+                  return '\$ ${value + 0.5}';
+                },
+                interval: 1,
+                reservedSize: 40,
+                getTextStyles: (context, value) =>
+                    const TextStyle(fontSize: 10),
               ),
-              leftTitles: AxisTitles(
-                sideTitles: SideTitles(
-                  showTitles: true,
-                  getTitlesWidget: leftTitleWidgets,
-                  interval: 1,
-                  reservedSize: 36,
-                ),
-              ),
-              topTitles: AxisTitles(
-                sideTitles: SideTitles(showTitles: false),
-              ),
-              rightTitles: AxisTitles(
-                sideTitles: SideTitles(showTitles: false),
-              ),
+              topTitles: SideTitles(showTitles: false),
+              rightTitles: SideTitles(showTitles: false),
             ),
             gridData: FlGridData(
               show: true,

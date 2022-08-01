@@ -6,8 +6,6 @@ import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-// coverage:ignore-start
-
 /// Low level LineChart Widget.
 class LineChartLeaf extends LeafRenderObjectWidget {
   const LineChartLeaf({Key? key, required this.data, required this.targetData})
@@ -28,7 +26,6 @@ class LineChartLeaf extends LeafRenderObjectWidget {
       ..buildContext = context;
   }
 }
-// coverage:ignore-end
 
 /// Renders our LineChart, also handles hitTest.
 class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
@@ -64,12 +61,7 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
     markNeedsPaint();
   }
 
-  // We couldn't mock [size] property of this class, that's why we have this
-  @visibleForTesting
-  Size? mockTestSize;
-
-  @visibleForTesting
-  var painter = LineChartPainter();
+  final _painter = LineChartPainter();
 
   PaintHolder<LineChartData> get paintHolder {
     return PaintHolder(data, targetData, textScale);
@@ -80,21 +72,13 @@ class RenderLineChart extends RenderBaseChart<LineTouchResponse> {
     final canvas = context.canvas;
     canvas.save();
     canvas.translate(offset.dx, offset.dy);
-    painter.paint(
-      buildContext,
-      CanvasWrapper(canvas, mockTestSize ?? size),
-      paintHolder,
-    );
+    _painter.paint(buildContext, CanvasWrapper(canvas, size), paintHolder);
     canvas.restore();
   }
 
   @override
   LineTouchResponse getResponseAtLocation(Offset localPosition) {
-    var touchedSpots = painter.handleTouch(
-      localPosition,
-      mockTestSize ?? size,
-      paintHolder,
-    );
+    var touchedSpots = _painter.handleTouch(localPosition, size, paintHolder);
     return LineTouchResponse(touchedSpots);
   }
 }

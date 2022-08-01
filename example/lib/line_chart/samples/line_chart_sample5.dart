@@ -15,82 +15,37 @@ class LineChartSample5 extends StatelessWidget {
 
   const LineChartSample5({Key? key}) : super(key: key);
 
-  Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(
-      fontWeight: FontWeight.bold,
-      color: Colors.blueGrey,
-      fontFamily: 'Digital',
-      fontSize: 18,
-    );
-    String text;
-    switch (value.toInt()) {
-      case 0:
-        text = '00:00';
-        break;
-      case 1:
-        text = '04:00';
-        break;
-      case 2:
-        text = '08:00';
-        break;
-      case 3:
-        text = '12:00';
-        break;
-      case 4:
-        text = '16:00';
-        break;
-      case 5:
-        text = '20:00';
-        break;
-      case 6:
-        text = '23:59';
-        break;
-      default:
-        return Container();
-    }
-
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      child: Text(text, style: style),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final lineBarsData = [
       LineChartBarData(
-        showingIndicators: showIndexes,
-        spots: allSpots,
-        isCurved: true,
-        barWidth: 4,
-        shadow: const Shadow(
-          blurRadius: 8,
-          color: Colors.black,
-        ),
-        belowBarData: BarAreaData(
-          show: true,
-          gradient: LinearGradient(
+          showingIndicators: showIndexes,
+          spots: allSpots,
+          isCurved: true,
+          barWidth: 4,
+          shadow: const Shadow(
+            blurRadius: 8,
+            color: Colors.black,
+          ),
+          belowBarData: BarAreaData(
+            show: true,
             colors: [
               const Color(0xff12c2e9).withOpacity(0.4),
               const Color(0xffc471ed).withOpacity(0.4),
               const Color(0xfff64f59).withOpacity(0.4),
             ],
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
           ),
-        ),
-        dotData: FlDotData(show: false),
-        gradient: const LinearGradient(
+          dotData: FlDotData(show: false),
           colors: [
-            Color(0xff12c2e9),
-            Color(0xffc471ed),
-            Color(0xfff64f59),
+            const Color(0xff12c2e9),
+            const Color(0xffc471ed),
+            const Color(0xfff64f59),
           ],
-          stops: [0.1, 0.4, 0.9],
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-        ),
-      ),
+          colorStops: [
+            0.1,
+            0.4,
+            0.9
+          ]),
     ];
 
     final tooltipsOnBar = lineBarsData[0];
@@ -121,10 +76,7 @@ class LineChartSample5 extends StatelessWidget {
                         FlDotCirclePainter(
                       radius: 8,
                       color: lerpGradient(
-                        barData.gradient!.colors,
-                        barData.gradient!.stops!,
-                        percent / 100,
-                      ),
+                          barData.colors, barData.colorStops!, percent / 100),
                       strokeWidth: 2,
                       strokeColor: Colors.black,
                     ),
@@ -149,37 +101,46 @@ class LineChartSample5 extends StatelessWidget {
           lineBarsData: lineBarsData,
           minY: 0,
           titlesData: FlTitlesData(
-            leftTitles: AxisTitles(
-              axisNameWidget: const Text('count'),
-              sideTitles: SideTitles(
-                showTitles: false,
-                reservedSize: 0,
-              ),
+            leftTitles: SideTitles(
+              showTitles: false,
             ),
-            bottomTitles: AxisTitles(
-              sideTitles: SideTitles(
+            bottomTitles: SideTitles(
                 showTitles: true,
-                interval: 1,
-                getTitlesWidget: bottomTitleWidgets,
-              ),
-            ),
-            rightTitles: AxisTitles(
-              axisNameWidget: const Text('count'),
-              sideTitles: SideTitles(
-                showTitles: false,
-                reservedSize: 0,
-              ),
-            ),
-            topTitles: AxisTitles(
-              axisNameWidget: const Text(
-                'Wall clock',
-                textAlign: TextAlign.left,
-              ),
-              sideTitles: SideTitles(
-                showTitles: true,
-                reservedSize: 0,
-              ),
-            ),
+                getTitles: (val) {
+                  switch (val.toInt()) {
+                    case 0:
+                      return '00:00';
+                    case 1:
+                      return '04:00';
+                    case 2:
+                      return '08:00';
+                    case 3:
+                      return '12:00';
+                    case 4:
+                      return '16:00';
+                    case 5:
+                      return '20:00';
+                    case 6:
+                      return '23:59';
+                  }
+                  return '';
+                },
+                getTextStyles: (context, value) => const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blueGrey,
+                      fontFamily: 'Digital',
+                      fontSize: 18,
+                    )),
+            rightTitles: SideTitles(showTitles: false),
+            topTitles: SideTitles(showTitles: false),
+          ),
+          axisTitleData: FlAxisTitleData(
+            rightTitle: AxisTitle(showTitle: true, titleText: 'count'),
+            leftTitle: AxisTitle(showTitle: true, titleText: 'count'),
+            topTitle: AxisTitle(
+                showTitle: true,
+                titleText: 'Wall clock',
+                textAlign: TextAlign.left),
           ),
           gridData: FlGridData(show: false),
           borderData: FlBorderData(

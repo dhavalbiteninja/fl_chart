@@ -117,16 +117,16 @@ class BarChartSample1State extends State<BarChartSample1> {
       x: x,
       barRods: [
         BarChartRodData(
-          toY: isTouched ? y + 1 : y,
-          color: isTouched ? Colors.yellow : barColor,
+          y: isTouched ? y + 1 : y,
+          colors: isTouched ? [Colors.yellow] : [barColor],
           width: width,
           borderSide: isTouched
               ? BorderSide(color: Colors.yellow.darken(), width: 1)
               : const BorderSide(color: Colors.white, width: 0),
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
-            toY: 20,
-            color: barBackgroundColor,
+            y: 20,
+            colors: [barBackgroundColor],
           ),
         ),
       ],
@@ -196,7 +196,7 @@ class BarChartSample1State extends State<BarChartSample1> {
                 ),
                 children: <TextSpan>[
                   TextSpan(
-                    text: (rod.toY - 1).toString(),
+                    text: (rod.y - 1).toString(),
                     style: const TextStyle(
                       color: Colors.yellow,
                       fontSize: 16,
@@ -220,23 +220,36 @@ class BarChartSample1State extends State<BarChartSample1> {
       ),
       titlesData: FlTitlesData(
         show: true,
-        rightTitles: AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
+        rightTitles: SideTitles(showTitles: false),
+        topTitles: SideTitles(showTitles: false),
+        bottomTitles: SideTitles(
+          showTitles: true,
+          getTextStyles: (context, value) => const TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+          margin: 16,
+          getTitles: (double value) {
+            switch (value.toInt()) {
+              case 0:
+                return 'M';
+              case 1:
+                return 'T';
+              case 2:
+                return 'W';
+              case 3:
+                return 'T';
+              case 4:
+                return 'F';
+              case 5:
+                return 'S';
+              case 6:
+                return 'S';
+              default:
+                return '';
+            }
+          },
         ),
-        topTitles: AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        bottomTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            getTitlesWidget: getTitles,
-            reservedSize: 38,
-          ),
-        ),
-        leftTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: false,
-          ),
+        leftTitles: SideTitles(
+          showTitles: false,
         ),
       ),
       borderData: FlBorderData(
@@ -247,76 +260,48 @@ class BarChartSample1State extends State<BarChartSample1> {
     );
   }
 
-  Widget getTitles(double value, TitleMeta meta) {
-    const style = TextStyle(
-      color: Colors.white,
-      fontWeight: FontWeight.bold,
-      fontSize: 14,
-    );
-    Widget text;
-    switch (value.toInt()) {
-      case 0:
-        text = const Text('M', style: style);
-        break;
-      case 1:
-        text = const Text('T', style: style);
-        break;
-      case 2:
-        text = const Text('W', style: style);
-        break;
-      case 3:
-        text = const Text('T', style: style);
-        break;
-      case 4:
-        text = const Text('F', style: style);
-        break;
-      case 5:
-        text = const Text('S', style: style);
-        break;
-      case 6:
-        text = const Text('S', style: style);
-        break;
-      default:
-        text = const Text('', style: style);
-        break;
-    }
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      space: 16,
-      child: text,
-    );
-  }
-
   BarChartData randomData() {
     return BarChartData(
       barTouchData: BarTouchData(
         enabled: false,
       ),
       titlesData: FlTitlesData(
-        show: true,
-        bottomTitles: AxisTitles(
-          sideTitles: SideTitles(
+          show: true,
+          bottomTitles: SideTitles(
             showTitles: true,
-            getTitlesWidget: getTitles,
-            reservedSize: 38,
+            getTextStyles: (context, value) => const TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+            margin: 16,
+            getTitles: (double value) {
+              switch (value.toInt()) {
+                case 0:
+                  return 'M';
+                case 1:
+                  return 'T';
+                case 2:
+                  return 'W';
+                case 3:
+                  return 'T';
+                case 4:
+                  return 'F';
+                case 5:
+                  return 'S';
+                case 6:
+                  return 'S';
+                default:
+                  return '';
+              }
+            },
           ),
-        ),
-        leftTitles: AxisTitles(
-          sideTitles: SideTitles(
+          leftTitles: SideTitles(
             showTitles: false,
           ),
-        ),
-        topTitles: AxisTitles(
-          sideTitles: SideTitles(
+          topTitles: SideTitles(
             showTitles: false,
           ),
-        ),
-        rightTitles: AxisTitles(
-          sideTitles: SideTitles(
+          rightTitles: SideTitles(
             showTitles: false,
-          ),
-        ),
-      ),
+          )),
       borderData: FlBorderData(
         show: false,
       ),

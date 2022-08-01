@@ -4,73 +4,11 @@ import 'package:flutter/material.dart';
 class LineChartSample4 extends StatelessWidget {
   const LineChartSample4({Key? key}) : super(key: key);
 
-  Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    String text;
-    switch (value.toInt()) {
-      case 0:
-        text = 'Jan';
-        break;
-      case 1:
-        text = 'Feb';
-        break;
-      case 2:
-        text = 'Mar';
-        break;
-      case 3:
-        text = 'Apr';
-        break;
-      case 4:
-        text = 'May';
-        break;
-      case 5:
-        text = 'Jun';
-        break;
-      case 6:
-        text = 'Jul';
-        break;
-      case 7:
-        text = 'Aug';
-        break;
-      case 8:
-        text = 'Sep';
-        break;
-      case 9:
-        text = 'Oct';
-        break;
-      case 10:
-        text = 'Nov';
-        break;
-      case 11:
-        text = 'Dec';
-        break;
-      default:
-        return Container();
-    }
-
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      space: 4,
-      child: Text(text, style: _dateTextStyle),
-    );
-  }
-
-  Widget leftTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(color: Colors.black, fontSize: 12.0);
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      child: Text('\$ ${value + 0.5}', style: style),
-    );
-  }
-
-  static const _dateTextStyle = TextStyle(
-    fontSize: 10,
-    color: Colors.purple,
-    fontWeight: FontWeight.bold,
-  );
-
   @override
   Widget build(BuildContext context) {
     const cutOffYValue = 5.0;
+    const dateTextStyle = TextStyle(
+        fontSize: 10, color: Colors.purple, fontWeight: FontWeight.bold);
 
     return AspectRatio(
       aspectRatio: 2.4,
@@ -97,16 +35,18 @@ class LineChartSample4 extends StatelessWidget {
                 ],
                 isCurved: true,
                 barWidth: 8,
-                color: Colors.purpleAccent,
+                colors: [
+                  Colors.purpleAccent,
+                ],
                 belowBarData: BarAreaData(
                   show: true,
-                  color: Colors.deepPurple.withOpacity(0.4),
+                  colors: [Colors.deepPurple.withOpacity(0.4)],
                   cutOffY: cutOffYValue,
                   applyCutOffY: true,
                 ),
                 aboveBarData: BarAreaData(
                   show: true,
-                  color: Colors.orange.withOpacity(0.6),
+                  colors: [Colors.orange.withOpacity(0.6)],
                   cutOffY: cutOffYValue,
                   applyCutOffY: true,
                 ),
@@ -118,38 +58,62 @@ class LineChartSample4 extends StatelessWidget {
             minY: 0,
             titlesData: FlTitlesData(
               show: true,
-              topTitles: AxisTitles(
-                sideTitles: SideTitles(showTitles: false),
-              ),
-              rightTitles: AxisTitles(
-                sideTitles: SideTitles(showTitles: false),
-              ),
-              bottomTitles: AxisTitles(
-                axisNameWidget: const Text(
-                  '2019',
-                  style: _dateTextStyle,
-                ),
-                sideTitles: SideTitles(
+              topTitles: SideTitles(showTitles: false),
+              rightTitles: SideTitles(showTitles: false),
+              bottomTitles: SideTitles(
                   showTitles: true,
-                  reservedSize: 18,
+                  reservedSize: 14,
                   interval: 1,
-                  getTitlesWidget: bottomTitleWidgets,
-                ),
-              ),
-              leftTitles: AxisTitles(
-                axisNameSize: 20,
-                axisNameWidget: const Padding(
-                  padding: EdgeInsets.only(bottom: 8.0),
-                  child: Text('Value'),
-                ),
-                sideTitles: SideTitles(
+                  getTextStyles: (context, value) => dateTextStyle,
+                  getTitles: (value) {
+                    switch (value.toInt()) {
+                      case 0:
+                        return 'Jan';
+                      case 1:
+                        return 'Feb';
+                      case 2:
+                        return 'Mar';
+                      case 3:
+                        return 'Apr';
+                      case 4:
+                        return 'May';
+                      case 5:
+                        return 'Jun';
+                      case 6:
+                        return 'Jul';
+                      case 7:
+                        return 'Aug';
+                      case 8:
+                        return 'Sep';
+                      case 9:
+                        return 'Oct';
+                      case 10:
+                        return 'Nov';
+                      case 11:
+                        return 'Dec';
+                      default:
+                        return '';
+                    }
+                  }),
+              leftTitles: SideTitles(
                   showTitles: true,
                   interval: 1,
                   reservedSize: 40,
-                  getTitlesWidget: leftTitleWidgets,
-                ),
-              ),
+                  getTitles: (value) {
+                    return '\$ ${value + 0.5}';
+                  },
+                  getTextStyles: (context, value) =>
+                      const TextStyle(color: Colors.black, fontSize: 12.0)),
             ),
+            axisTitleData: FlAxisTitleData(
+                leftTitle:
+                    AxisTitle(showTitle: true, titleText: 'Value', margin: 4),
+                bottomTitle: AxisTitle(
+                    showTitle: true,
+                    margin: 0,
+                    titleText: '2019',
+                    textStyle: dateTextStyle,
+                    textAlign: TextAlign.right)),
             gridData: FlGridData(
               show: true,
               drawVerticalLine: false,

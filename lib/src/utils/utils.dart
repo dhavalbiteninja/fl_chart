@@ -123,20 +123,13 @@ class Utils {
   ///
   /// If there isn't any provided interval, we use this function to calculate an interval to apply,
   /// using [axisViewSize] / [pixelPerInterval], we calculate the allowedCount lines in the axis,
-  /// then using  [diffInAxis] / allowedCount, we can find out how much interval we need,
+  /// then using  [diffInYAxis] / allowedCount, we can find out how much interval we need,
   /// then we round that number by finding nearest number in this pattern:
   /// 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 5000, 10000,...
-  double getEfficientInterval(double axisViewSize, double diffInAxis,
+  double getEfficientInterval(double axisViewSize, double diffInYAxis,
       {double pixelPerInterval = 40}) {
-    final allowedCount = math.max(axisViewSize ~/ pixelPerInterval, 1);
-    if (diffInAxis == 0) {
-      return 1;
-    }
-    final accurateInterval =
-        diffInAxis == 0 ? axisViewSize : diffInAxis / allowedCount;
-    if (allowedCount <= 2) {
-      return accurateInterval;
-    }
+    final allowedCount = axisViewSize ~/ pixelPerInterval;
+    final accurateInterval = diffInYAxis / allowedCount;
     return roundInterval(accurateInterval);
   }
 
@@ -258,7 +251,7 @@ class Utils {
       effectiveTextStyle = effectiveTextStyle!
           .merge(const TextStyle(fontWeight: FontWeight.bold));
     }
-    return effectiveTextStyle!;
+    return effectiveTextStyle ??= defaultTextStyle.style;
   }
 
   /// Finds the best initial interval value
@@ -266,17 +259,14 @@ class Utils {
   /// If there is a zero point in the axis, we a value that passes through it.
   /// For example if we have -3 to +3, with interval 2. if we start from -3, we get something like this: -3, -1, +1, +3
   /// But the most important point is zero in most cases. with this logic we get this: -2, 0, 2
-  double getBestInitialIntervalValue(double min, double max, double interval,
-      {double baseline = 0.0}) {
-    final diff = (baseline - min);
-    final mod = (diff % interval);
-    if ((max - min).abs() <= mod) {
+  double getBestInitialIntervalValue(double min, double max, double interval) {
+    if (min > 0 || max < 0) {
       return min;
     }
-    if (mod == 0) {
+    if (max - min <= interval) {
       return min;
     }
-    return min + mod;
+    return interval * (min ~/ interval).toDouble();
   }
 
   /// Converts radius number to sigma for drawing shadows

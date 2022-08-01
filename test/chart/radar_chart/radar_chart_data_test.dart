@@ -47,13 +47,6 @@ void main() {
 
       expect(
           radarChartData1 ==
-              radarChartData1Clone.copyWith(
-                radarShape: RadarShape.polygon,
-              ),
-          false);
-
-      expect(
-          radarChartData1 ==
               radarChartData1Clone.copyWith(radarTouchData: radarTouchData2),
           false);
 

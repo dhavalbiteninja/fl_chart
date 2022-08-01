@@ -5,7 +5,6 @@ import 'package:fl_chart/src/chart/base/line.dart';
 import 'package:flutter/material.dart';
 
 class MockData {
-  static const color0 = Color(0x00000000);
   static const color1 = Color(0x11111111);
   static const color2 = Color(0x22222222);
   static const color3 = Color(0x33333333);
@@ -66,395 +65,6 @@ class MockData {
   static const Offset offset4 = Offset(4, 4);
   static const Offset offset5 = Offset(5, 5);
   static const Offset offset6 = Offset(6, 6);
-
-  static const size1 = Size(11, 11);
-  static const size2 = Size(22, 22);
-
-  static final textPainter1 = TextPainter();
-
-  static final rect1 = Rect.fromCenter(center: offset1, width: 11, height: 11);
-  static final rect2 = Rect.fromCenter(center: offset2, width: 22, height: 22);
-
-  static final rRect1 = RRect.fromLTRBR(1, 1, 1, 1, const Radius.circular(11));
-  static final rRect2 = RRect.fromLTRBR(2, 2, 2, 2, const Radius.circular(22));
-
-  static final paint1 = Paint()
-    ..color = color1
-    ..strokeWidth = 11;
-  static final paint2 = Paint()
-    ..color = color2
-    ..strokeWidth = 22;
-
-  static Picture? _picture1;
-
-  static Picture picture1() {
-    if (_picture1 != null) {
-      return _picture1!;
-    }
-    final recorder1 = PictureRecorder();
-    final canvas = Canvas(recorder1);
-    canvas.drawLine(offset1, offset2, paint1);
-    _picture1 = recorder1.endRecording();
-    return _picture1!;
-  }
-
-  static Image? _image1;
-
-  static Image image1() {
-    if (_image1 != null) {
-      return _image1!;
-    }
-    _image1 = Image.asset('asdf/asdf');
-    return _image1!;
-  }
-
-  static final LineChartBarData lineChartBarData1 = LineChartBarData(
-    show: true,
-    dashArray: [0, 1],
-    gradient: const LinearGradient(
-      colors: [Colors.red, Colors.green],
-      stops: [0, 1],
-      begin: Alignment(0, 0),
-      end: Alignment(1, 1),
-    ),
-    spots: [
-      flSpot1,
-      flSpot2,
-    ],
-    shadow: shadow1,
-    isStepLineChart: false,
-    aboveBarData: barAreaData1,
-    belowBarData: barAreaData2,
-    barWidth: 12,
-    curveSmoothness: 12.0,
-    dotData: flDotData1,
-    isCurved: false,
-    isStrokeCapRound: true,
-    preventCurveOverShooting: false,
-    preventCurveOvershootingThreshold: 1.2,
-    showingIndicators: [0, 1],
-  );
-
-  static final LineChartBarData lineChartBarData2 = LineChartBarData(
-    show: true,
-    dashArray: [0, 1],
-    gradient: const LinearGradient(
-      colors: [Colors.red, Colors.green],
-      stops: [0, 1],
-      begin: Alignment(0, 0),
-      end: Alignment(1, 1),
-    ),
-    spots: [
-      flSpot1,
-      flSpot2,
-    ],
-    shadow: shadow2,
-    isStepLineChart: true,
-    lineChartStepData: lineChartStepData1,
-    aboveBarData: barAreaData1,
-    belowBarData: barAreaData2,
-    barWidth: 12,
-    curveSmoothness: 12.0,
-    dotData: flDotData1,
-    isCurved: false,
-    isStrokeCapRound: true,
-    preventCurveOverShooting: false,
-    preventCurveOvershootingThreshold: 1.2,
-    showingIndicators: [0, 4],
-  );
-
-  static const flSpot0 = FlSpot.zero;
-  static const flSpot1 = FlSpot(1, 1);
-  static const flSpot2 = FlSpot(2, 2);
-  static const flSpot3 = FlSpot(3, 3);
-  static const flSpot4 = FlSpot(4, 4);
-  static const flSpot5 = FlSpot(5, 5);
-
-  static final horizontalLine0 = HorizontalLine(y: 0, color: color0);
-  static final horizontalLine1 = HorizontalLine(y: 1, color: color1);
-  static final horizontalLine2 = HorizontalLine(y: 2, color: color2);
-  static final horizontalLine3 = HorizontalLine(y: 3, color: color3);
-  static final horizontalLine4 = HorizontalLine(y: 4, color: color4);
-  static final horizontalLine5 = HorizontalLine(y: 5, color: color5);
-
-  static final verticalLine0 = VerticalLine(x: 0, color: color0);
-  static final verticalLine1 = VerticalLine(x: 1, color: color1);
-  static final verticalLine2 = VerticalLine(x: 2, color: color2);
-  static final verticalLine3 = VerticalLine(x: 3, color: color3);
-  static final verticalLine4 = VerticalLine(x: 4, color: color4);
-  static final verticalLine5 = VerticalLine(x: 5, color: color5);
-
-  static final horizontalRangeAnnotation0 =
-      HorizontalRangeAnnotation(y1: 0, y2: 1, color: color0);
-
-  static final horizontalRangeAnnotation1 =
-      HorizontalRangeAnnotation(y1: 1, y2: 2, color: color1);
-
-  static final horizontalRangeAnnotation2 =
-      HorizontalRangeAnnotation(y1: 2, y2: 3, color: color2);
-
-  static final horizontalRangeAnnotation3 =
-      HorizontalRangeAnnotation(y1: 3, y2: 4, color: color3);
-
-  static final horizontalRangeAnnotation4 =
-      HorizontalRangeAnnotation(y1: 4, y2: 5, color: color4);
-
-  static final verticalRangeAnnotation0 =
-      VerticalRangeAnnotation(x1: 0, x2: 1, color: color0);
-
-  static final verticalRangeAnnotation1 =
-      VerticalRangeAnnotation(x1: 1, x2: 2, color: color1);
-
-  static final verticalRangeAnnotation2 =
-      VerticalRangeAnnotation(x1: 2, x2: 3, color: color2);
-
-  static final verticalRangeAnnotation3 =
-      VerticalRangeAnnotation(x1: 3, x2: 4, color: color3);
-
-  static final verticalRangeAnnotation4 =
-      VerticalRangeAnnotation(x1: 4, x2: 5, color: color4);
-
-  static const RadarEntry radarEntry0 = RadarEntry(value: 0);
-  static const RadarEntry radarEntry1 = RadarEntry(value: 1);
-  static const RadarEntry radarEntry2 = RadarEntry(value: 2);
-  static const RadarEntry radarEntry3 = RadarEntry(value: 3);
-  static const RadarEntry radarEntry4 = RadarEntry(value: 4);
-  static final RadarDataSet radarDataSet1 = RadarDataSet(
-    dataEntries: [radarEntry1, radarEntry2, radarEntry3],
-  );
-  static final RadarDataSet radarDataSet2 = RadarDataSet(
-    dataEntries: [radarEntry3, radarEntry1, radarEntry2],
-  );
-  static final RadarTouchedSpot radarTouchedSpot = RadarTouchedSpot(
-    radarDataSet1,
-    0,
-    radarEntry1,
-    0,
-    flSpot1,
-    offset1,
-  );
-
-  static final pieChartSection0 = PieChartSectionData(
-    value: 0,
-    color: color0,
-    radius: 0,
-  );
-
-  static final pieChartSection1 = PieChartSectionData(
-    value: 1,
-    color: color1,
-    radius: 1,
-  );
-
-  static final pieChartSection2 = PieChartSectionData(
-    value: 2,
-    color: color2,
-    radius: 2,
-  );
-
-  static final pieChartSection3 = PieChartSectionData(
-    value: 3,
-    color: color3,
-    radius: 3,
-  );
-
-  static final pieChartSection4 = PieChartSectionData(
-    value: 4,
-    color: color4,
-    radius: 4,
-  );
-
-  static final scatterSpot0 = ScatterSpot(0, 0, color: color0);
-  static final scatterSpot1 = ScatterSpot(1, 1, color: color1);
-  static final scatterSpot2 = ScatterSpot(2, 2, color: color2);
-  static final scatterSpot3 = ScatterSpot(3, 3, color: color3);
-  static final scatterSpot4 = ScatterSpot(4, 4, color: color4);
-
-  static final scatterTouchedSpot = ScatterTouchedSpot(scatterSpot1, 0);
-
-  static final pieChartSectionData1 = PieChartSectionData(value: 12);
-  static final pieTouchedSection1 = PieTouchedSection(
-    pieChartSectionData1,
-    0,
-    12,
-    33,
-  );
-
-  static final lineBarSpot1 = TouchLineBarSpot(
-    lineChartBarData1,
-    0,
-    lineChartBarData1.spots.first,
-    0,
-  );
-  static final lineBarSpot2 = TouchLineBarSpot(
-    MockData.lineChartBarData1,
-    1,
-    MockData.lineChartBarData1.spots.last,
-    2,
-  );
-
-  static final lineTouchResponse1 =
-      LineTouchResponse([lineBarSpot1, lineBarSpot2]);
-
-  static final barChartRodData1 = BarChartRodData(toY: 11);
-  static final barChartRodData2 = BarChartRodData(toY: 22);
-  static final barTouchedSpot = BarTouchedSpot(
-    BarChartGroupData(x: 0, barRods: [barChartRodData1, barChartRodData2]),
-    0,
-    barChartRodData1,
-    0,
-    null,
-    -1,
-    flSpot1,
-    offset1,
-  );
-
-  static const gradient1 = LinearGradient(colors: [
-    MockData.color0,
-    MockData.color1,
-  ]);
-
-  static final barGroupData0 = BarChartGroupData(
-    x: 0,
-    barRods: [MockData.barChartRodData1, MockData.barChartRodData2],
-  );
-
-  static final barGroupData1 = BarChartGroupData(
-    x: 1,
-    barRods: [MockData.barChartRodData1, MockData.barChartRodData2],
-  );
-
-  static final barGroupData2 = BarChartGroupData(
-    x: 2,
-    barRods: [MockData.barChartRodData1, MockData.barChartRodData2],
-  );
-
-  static final barChartData1 = BarChartData(
-    barGroups: [barGroupData0, barGroupData1, barGroupData2],
-  );
-
-  static final sideTitles1 = SideTitles(
-    reservedSize: 10,
-    showTitles: false,
-    interval: 23,
-  );
-  static final sideTitles1Clone = SideTitles(
-    reservedSize: 10,
-    showTitles: false,
-    interval: 23,
-  );
-  static final sideTitles2 = SideTitles(
-    reservedSize: 10,
-    showTitles: false,
-    getTitlesWidget: null,
-    interval: 12,
-  );
-  static final sideTitles3 = SideTitles(
-    reservedSize: 10,
-    showTitles: false,
-    getTitlesWidget: getTitles,
-    interval: 12,
-  );
-  static final sideTitles4 = SideTitles(
-    reservedSize: 11,
-    showTitles: true,
-    getTitlesWidget: getTitles,
-    interval: 12,
-  );
-  static final sideTitles5 = SideTitles(
-    reservedSize: 10,
-    showTitles: false,
-    getTitlesWidget: getTitles,
-    interval: 43,
-  );
-  static final sideTitles6 = SideTitles(
-    reservedSize: 10,
-    showTitles: false,
-    getTitlesWidget: getTitles,
-    interval: 22,
-  );
-
-  static const widget1 = Text('axis1');
-  static const widget2 = Text('axis2');
-  static const widget3 = Text('axis3');
-  static const widget4 = Text('axis4');
-  static const widget5 = Text('axis5');
-
-  static final axisTitles1 = AxisTitles(
-    axisNameWidget: widget1,
-    sideTitles: sideTitles1,
-  );
-  static final axisTitles1Clone = AxisTitles(
-    axisNameWidget: widget1,
-    sideTitles: sideTitles1Clone,
-  );
-  static final axisTitles2 = AxisTitles(
-    axisNameWidget: widget2,
-    sideTitles: sideTitles2,
-  );
-  static final axisTitles3 = AxisTitles(
-    axisNameWidget: widget3,
-    sideTitles: sideTitles3,
-  );
-  static final axisTitles4 = AxisTitles(
-    axisNameWidget: widget4,
-    sideTitles: sideTitles4,
-  );
-  static final axisTitles5 = AxisTitles(
-    axisNameWidget: widget5,
-    axisNameSize: 889,
-    sideTitles: sideTitles4,
-  );
-
-  static final flTitlesData1 = FlTitlesData(
-    show: true,
-    bottomTitles: axisTitles1,
-    topTitles: axisTitles2,
-    rightTitles: axisTitles3,
-    leftTitles: axisTitles4,
-  );
-  static final flTitlesData1Clone = FlTitlesData(
-    show: true,
-    bottomTitles: axisTitles1Clone,
-    topTitles: axisTitles2,
-    rightTitles: axisTitles3,
-    leftTitles: axisTitles4,
-  );
-  static final flTitlesData2 = FlTitlesData(
-    show: true,
-    bottomTitles: null,
-    topTitles: axisTitles2,
-    rightTitles: axisTitles3,
-    leftTitles: axisTitles4,
-  );
-  static final flTitlesData3 = FlTitlesData(
-    show: true,
-    bottomTitles: axisTitles1,
-    topTitles: null,
-    rightTitles: axisTitles3,
-    leftTitles: axisTitles4,
-  );
-  static final flTitlesData4 = FlTitlesData(
-    show: true,
-    bottomTitles: axisTitles1,
-    topTitles: axisTitles2,
-    rightTitles: null,
-    leftTitles: axisTitles4,
-  );
-  static final flTitlesData5 = FlTitlesData(
-    show: true,
-    bottomTitles: axisTitles1,
-    topTitles: axisTitles2,
-    rightTitles: axisTitles3,
-    leftTitles: null,
-  );
-  static final flTitlesData6 = FlTitlesData(
-    show: false,
-    bottomTitles: axisTitles1,
-    topTitles: axisTitles2,
-    rightTitles: axisTitles3,
-    leftTitles: axisTitles4,
-  );
 }
 
 final VerticalRangeAnnotation verticalRangeAnnotation1 =
@@ -497,7 +107,6 @@ final FlLine flLine1Clone =
     FlLine(color: Colors.green, strokeWidth: 1, dashArray: [1, 2, 3]);
 
 bool checkToShowLine(double value) => true;
-
 FlLine getDrawingLine(double value) => FlLine();
 
 const FlSpot flSpot1 = FlSpot(1, 1);
@@ -506,10 +115,262 @@ final FlSpot flSpot1Clone = flSpot1.copyWith();
 const FlSpot flSpot2 = FlSpot(4, 2);
 final FlSpot flSpot2Clone = flSpot2.copyWith();
 
-Widget getTitles(double value, TitleMeta meta) => const Text('sallam');
+String getTitles(double value) => 'sallam';
 
 TextStyle getTextStyles(BuildContext context, double value) =>
     const TextStyle(color: Colors.green);
+
+final SideTitles sideTitles1 = SideTitles(
+  margin: 1,
+  reservedSize: 10,
+  getTextStyles: getTextStyles,
+  showTitles: false,
+  getTitles: getTitles,
+  interval: 12,
+  rotateAngle: 11,
+);
+final SideTitles sideTitles1Clone = SideTitles(
+  margin: 1,
+  reservedSize: 10,
+  getTextStyles: getTextStyles,
+  showTitles: false,
+  getTitles: getTitles,
+  interval: 12,
+  rotateAngle: 11,
+);
+final SideTitles sideTitles2 = SideTitles(
+  margin: 1,
+  reservedSize: 10,
+  getTextStyles: getTextStyles,
+  showTitles: false,
+  getTitles: null,
+  interval: 12,
+  rotateAngle: 11,
+);
+final SideTitles sideTitles3 = SideTitles(
+  margin: 4,
+  reservedSize: 10,
+  getTextStyles: getTextStyles,
+  showTitles: false,
+  getTitles: getTitles,
+  interval: 12,
+  rotateAngle: 11,
+);
+final SideTitles sideTitles4 = SideTitles(
+  margin: 1,
+  reservedSize: 11,
+  getTextStyles: getTextStyles,
+  showTitles: false,
+  getTitles: getTitles,
+  interval: 12,
+  rotateAngle: 11,
+);
+final SideTitles sideTitles5 = SideTitles(
+  margin: 1,
+  reservedSize: 10,
+  getTextStyles: getTextStyles,
+  showTitles: false,
+  getTitles: getTitles,
+  interval: 12,
+  rotateAngle: 101110,
+);
+final SideTitles sideTitles6 = SideTitles(
+  margin: 1,
+  reservedSize: 10,
+  getTextStyles: getTextStyles,
+  showTitles: false,
+  getTitles: getTitles,
+  interval: 12,
+  rotateAngle: 13,
+);
+
+final FlTitlesData flTitlesData1 = FlTitlesData(
+  show: true,
+  bottomTitles: sideTitles1,
+  topTitles: sideTitles2,
+  rightTitles: sideTitles3,
+  leftTitles: sideTitles4,
+);
+final FlTitlesData flTitlesData1Clone = FlTitlesData(
+  show: true,
+  bottomTitles: sideTitles1Clone,
+  topTitles: sideTitles2,
+  rightTitles: sideTitles3,
+  leftTitles: sideTitles4,
+);
+final FlTitlesData flTitlesData2 = FlTitlesData(
+  show: true,
+  bottomTitles: null,
+  topTitles: sideTitles2,
+  rightTitles: sideTitles3,
+  leftTitles: sideTitles4,
+);
+final FlTitlesData flTitlesData3 = FlTitlesData(
+  show: true,
+  bottomTitles: sideTitles1,
+  topTitles: null,
+  rightTitles: sideTitles3,
+  leftTitles: sideTitles4,
+);
+final FlTitlesData flTitlesData4 = FlTitlesData(
+  show: true,
+  bottomTitles: sideTitles1,
+  topTitles: sideTitles2,
+  rightTitles: null,
+  leftTitles: sideTitles4,
+);
+final FlTitlesData flTitlesData5 = FlTitlesData(
+  show: true,
+  bottomTitles: sideTitles1,
+  topTitles: sideTitles2,
+  rightTitles: sideTitles3,
+  leftTitles: null,
+);
+final FlTitlesData flTitlesData6 = FlTitlesData(
+  show: false,
+  bottomTitles: sideTitles1,
+  topTitles: sideTitles2,
+  rightTitles: sideTitles3,
+  leftTitles: sideTitles4,
+);
+
+final AxisTitle axisTitle1 = AxisTitle(
+  textStyle: const TextStyle(color: Colors.green),
+  reservedSize: 12,
+  margin: 33,
+  showTitle: true,
+  titleText: 'sallam',
+  textAlign: TextAlign.right,
+);
+final AxisTitle axisTitle1Clone = AxisTitle(
+  textStyle: const TextStyle(color: Colors.green),
+  reservedSize: 12,
+  margin: 33,
+  showTitle: true,
+  titleText: 'sallam',
+  textAlign: TextAlign.right,
+);
+
+final AxisTitle axisTitle2 = AxisTitle(
+  textStyle: const TextStyle(color: Colors.green),
+  reservedSize: 33,
+  margin: 33,
+  showTitle: true,
+  titleText: 'sallam',
+  textAlign: TextAlign.right,
+);
+final AxisTitle axisTitle3 = AxisTitle(
+  textStyle: const TextStyle(color: Colors.red),
+  reservedSize: 12,
+  margin: 33,
+  showTitle: true,
+  titleText: 'sallam',
+  textAlign: TextAlign.right,
+);
+final AxisTitle axisTitle4 = AxisTitle(
+  textStyle: const TextStyle(color: Colors.green),
+  reservedSize: 12,
+  margin: 11,
+  showTitle: true,
+  titleText: 'sallam',
+  textAlign: TextAlign.right,
+);
+final AxisTitle axisTitle5 = AxisTitle(
+  textStyle: const TextStyle(color: Colors.green),
+  reservedSize: 12,
+  margin: 33,
+  showTitle: false,
+  titleText: 'sallam',
+  textAlign: TextAlign.right,
+);
+final AxisTitle axisTitle6 = AxisTitle(
+  textStyle: const TextStyle(color: Colors.green),
+  reservedSize: 12,
+  margin: 33,
+  showTitle: true,
+  titleText: 'sallam',
+  textAlign: TextAlign.left,
+);
+final AxisTitle axisTitle7 = AxisTitle(
+  textStyle: const TextStyle(color: Colors.green),
+  reservedSize: 12,
+  margin: 33,
+  showTitle: true,
+  titleText: 'sallamm',
+  textAlign: TextAlign.right,
+);
+final AxisTitle axisTitle8 = AxisTitle(
+  textStyle: null,
+  reservedSize: 12,
+  margin: 33,
+  showTitle: true,
+  titleText: 'sallam',
+  textAlign: TextAlign.right,
+);
+
+final FlAxisTitleData flAxisTitleData1 = FlAxisTitleData(
+  show: true,
+  topTitle: axisTitle1,
+  rightTitle: axisTitle2,
+  leftTitle: axisTitle3,
+  bottomTitle: axisTitle4,
+);
+final FlAxisTitleData flAxisTitleData1Clone = FlAxisTitleData(
+  show: true,
+  topTitle: axisTitle1Clone,
+  rightTitle: axisTitle2,
+  leftTitle: axisTitle3,
+  bottomTitle: axisTitle4,
+);
+final FlAxisTitleData flAxisTitleData2 = FlAxisTitleData(
+  show: true,
+  topTitle: null,
+  rightTitle: axisTitle2,
+  leftTitle: axisTitle3,
+  bottomTitle: axisTitle4,
+);
+final FlAxisTitleData flAxisTitleData3 = FlAxisTitleData(
+  show: true,
+  topTitle: axisTitle1,
+  rightTitle: null,
+  leftTitle: axisTitle3,
+  bottomTitle: axisTitle4,
+);
+final FlAxisTitleData flAxisTitleData4 = FlAxisTitleData(
+  show: true,
+  topTitle: axisTitle1,
+  rightTitle: axisTitle2,
+  leftTitle: null,
+  bottomTitle: axisTitle4,
+);
+final FlAxisTitleData flAxisTitleData5 = FlAxisTitleData(
+  show: true,
+  topTitle: axisTitle1,
+  rightTitle: axisTitle2,
+  leftTitle: axisTitle3,
+  bottomTitle: null,
+);
+final FlAxisTitleData flAxisTitleData6 = FlAxisTitleData(
+  show: false,
+  topTitle: axisTitle1,
+  rightTitle: axisTitle2,
+  leftTitle: axisTitle3,
+  bottomTitle: axisTitle4,
+);
+final FlAxisTitleData flAxisTitleData7 = FlAxisTitleData(
+  show: true,
+  topTitle: axisTitle1,
+  rightTitle: axisTitle2,
+  leftTitle: axisTitle4,
+  bottomTitle: axisTitle3,
+);
+final FlAxisTitleData flAxisTitleData8 = FlAxisTitleData(
+  show: true,
+  topTitle: axisTitle4,
+  rightTitle: axisTitle2,
+  leftTitle: axisTitle3,
+  bottomTitle: axisTitle1,
+);
 
 final FlGridData flGridData1 = FlGridData(
   show: true,
@@ -604,64 +465,54 @@ final BarAreaSpotsLine barAreaSpotsLine2 = BarAreaSpotsLine(
 );
 
 final BarAreaData barAreaData1 = BarAreaData(
+  colors: [Colors.green, Colors.blue],
   show: true,
   applyCutOffY: false,
   cutOffY: 12,
-  gradient: const LinearGradient(
-    colors: [Colors.green, Colors.blue],
-    stops: [0, 0.5],
-    begin: Alignment.topLeft,
-    end: Alignment.bottomCenter,
-  ),
+  gradientColorStops: [0, 0.5],
+  gradientFrom: const Offset(0, 0),
+  gradientTo: const Offset(1, 1),
   spotsLine: barAreaSpotsLine1,
 );
 final BarAreaData barAreaData1Clone = BarAreaData(
+  colors: [Colors.green, Colors.blue],
   show: true,
   applyCutOffY: false,
   cutOffY: 12,
-  gradient: const LinearGradient(
-    colors: [Colors.green, Colors.blue],
-    stops: [0, 0.5],
-    begin: Alignment.topLeft,
-    end: Alignment.bottomCenter,
-  ),
+  gradientColorStops: [0, 0.5],
+  gradientFrom: const Offset(0, 0),
+  gradientTo: const Offset(1, 1),
   spotsLine: barAreaSpotsLine1,
 );
 
 final BarAreaData barAreaData2 = BarAreaData(
+  colors: [Colors.green, Colors.blue],
   show: true,
   applyCutOffY: false,
   cutOffY: 12,
-  gradient: const LinearGradient(
-    colors: [Colors.green, Colors.blue],
-    stops: [0, 0.5],
-    begin: Alignment.topLeft,
-    end: Alignment.bottomCenter,
-  ),
+  gradientColorStops: [0, 0.5],
+  gradientFrom: const Offset(0, 0),
+  gradientTo: const Offset(1, 1),
   spotsLine: barAreaSpotsLine2,
 );
 final BarAreaData barAreaData3 = BarAreaData(
+  colors: null,
   show: true,
   applyCutOffY: false,
   cutOffY: 12,
-  gradient: const LinearGradient(
-    colors: [Colors.green, Colors.blue],
-    stops: [0, 0.6],
-    begin: Alignment.topLeft,
-    end: Alignment.bottomCenter,
-  ),
+  gradientColorStops: [0, 0.5],
+  gradientFrom: const Offset(0, 0),
+  gradientTo: const Offset(1, 1),
   spotsLine: barAreaSpotsLine2,
 );
 final BarAreaData barAreaData4 = BarAreaData(
+  colors: [Colors.green, Colors.blue],
   show: true,
   applyCutOffY: false,
   cutOffY: 12,
-  gradient: const LinearGradient(
-    colors: [Colors.green, Colors.blue],
-    stops: [0],
-    begin: Alignment.topLeft,
-    end: Alignment.bottomCenter,
-  ),
+  gradientColorStops: [0],
+  gradientFrom: const Offset(0, 0),
+  gradientTo: const Offset(1, 1),
   spotsLine: barAreaSpotsLine2,
 );
 
@@ -756,12 +607,8 @@ final LineChartStepData lineChartStepData2 = LineChartStepData(
 final LineChartBarData lineChartBarData1 = LineChartBarData(
   show: true,
   dashArray: [0, 1],
-  gradient: const LinearGradient(
-    colors: [Colors.red, Colors.green],
-    stops: [0, 1],
-    begin: Alignment(0, 0),
-    end: Alignment(1, 1),
-  ),
+  colors: [Colors.red, Colors.green],
+  colorStops: [0, 1],
   spots: [
     flSpot1,
     flSpot2,
@@ -770,6 +617,8 @@ final LineChartBarData lineChartBarData1 = LineChartBarData(
   isStepLineChart: false,
   aboveBarData: barAreaData1,
   belowBarData: barAreaData2,
+  gradientFrom: const Offset(0, 0),
+  gradientTo: const Offset(1, 1),
   barWidth: 12,
   curveSmoothness: 12.0,
   dotData: flDotData1,
@@ -782,12 +631,8 @@ final LineChartBarData lineChartBarData1 = LineChartBarData(
 final LineChartBarData lineChartBarData1Clone = LineChartBarData(
   show: true,
   dashArray: [0, 1],
-  gradient: const LinearGradient(
-    colors: [Colors.red, Colors.green],
-    stops: [0, 1],
-    begin: Alignment(0, 0),
-    end: Alignment(1, 1),
-  ),
+  colors: [Colors.red, Colors.green],
+  colorStops: [0, 1],
   spots: [
     flSpot1Clone,
     flSpot2,
@@ -796,6 +641,8 @@ final LineChartBarData lineChartBarData1Clone = LineChartBarData(
   isStepLineChart: false,
   aboveBarData: barAreaData1Clone,
   belowBarData: barAreaData2,
+  gradientFrom: const Offset(0, 0),
+  gradientTo: const Offset(1, 1),
   barWidth: 12,
   curveSmoothness: 12.0,
   dotData: flDotData1Clone,
@@ -809,12 +656,8 @@ final LineChartBarData lineChartBarData1Clone = LineChartBarData(
 final LineChartBarData lineChartBarData2 = LineChartBarData(
   show: true,
   dashArray: [0, 1],
-  gradient: const LinearGradient(
-    colors: [Colors.red, Colors.green],
-    stops: [0, 1],
-    begin: Alignment(0, 0),
-    end: Alignment(1, 1),
-  ),
+  colors: [Colors.red, Colors.green],
+  colorStops: [0, 1],
   spots: [
     flSpot1,
     flSpot2,
@@ -824,6 +667,8 @@ final LineChartBarData lineChartBarData2 = LineChartBarData(
   lineChartStepData: lineChartStepData1,
   aboveBarData: barAreaData1,
   belowBarData: barAreaData2,
+  gradientFrom: const Offset(0, 0),
+  gradientTo: const Offset(1, 1),
   barWidth: 12,
   curveSmoothness: 12.0,
   dotData: flDotData1,
@@ -837,12 +682,8 @@ final LineChartBarData lineChartBarData2 = LineChartBarData(
 final LineChartBarData lineChartBarData3 = LineChartBarData(
   show: true,
   dashArray: null,
-  gradient: const LinearGradient(
-    colors: [Colors.red, Colors.green],
-    stops: [0, 1],
-    begin: Alignment(0, 0),
-    end: Alignment(1, 1),
-  ),
+  colors: [Colors.red, Colors.green],
+  colorStops: [0, 1],
   spots: [
     flSpot1,
     flSpot2,
@@ -852,6 +693,8 @@ final LineChartBarData lineChartBarData3 = LineChartBarData(
   lineChartStepData: lineChartStepData2,
   aboveBarData: barAreaData1,
   belowBarData: barAreaData2,
+  gradientFrom: const Offset(0, 0),
+  gradientTo: const Offset(1, 1),
   barWidth: 12,
   curveSmoothness: 12.0,
   dotData: flDotData1,
@@ -865,12 +708,8 @@ final LineChartBarData lineChartBarData3 = LineChartBarData(
 final LineChartBarData lineChartBarData4 = LineChartBarData(
   show: true,
   dashArray: [0, 1],
-  gradient: const LinearGradient(
-    colors: [Colors.red, Colors.green],
-    stops: [0, 1],
-    begin: Alignment(0, 0),
-    end: Alignment(1, 1),
-  ),
+  colors: [Colors.red, Colors.green],
+  colorStops: [0, 1],
   spots: [
     flSpot2,
     flSpot1,
@@ -880,6 +719,8 @@ final LineChartBarData lineChartBarData4 = LineChartBarData(
   lineChartStepData: lineChartStepData2,
   aboveBarData: barAreaData1,
   belowBarData: barAreaData2,
+  gradientFrom: const Offset(0, 0),
+  gradientTo: const Offset(1, 1),
   barWidth: 12,
   curveSmoothness: 12.0,
   dotData: flDotData1,
@@ -893,18 +734,16 @@ final LineChartBarData lineChartBarData4 = LineChartBarData(
 final LineChartBarData lineChartBarData5 = LineChartBarData(
   show: true,
   dashArray: [0, 1],
-  gradient: const LinearGradient(
-    colors: [Colors.red, Colors.green],
-    stops: [0, 1],
-    begin: Alignment(0, 0),
-    end: Alignment(1, 1),
-  ),
+  colors: [Colors.red, Colors.green],
+  colorStops: [0, 1],
   spots: [
     flSpot1,
     flSpot2,
   ],
   aboveBarData: barAreaData2,
   belowBarData: barAreaData1,
+  gradientFrom: const Offset(0, 0),
+  gradientTo: const Offset(1, 1),
   barWidth: 12,
   curveSmoothness: 12.0,
   dotData: flDotData1,
@@ -918,18 +757,16 @@ final LineChartBarData lineChartBarData5 = LineChartBarData(
 final LineChartBarData lineChartBarData6 = LineChartBarData(
   show: true,
   dashArray: [0, 1],
-  gradient: const LinearGradient(
-    colors: [Colors.red, Colors.green],
-    stops: [0, 1],
-    begin: Alignment(0, 0),
-    end: Alignment(1, 1),
-  ),
+  colors: [Colors.red, Colors.green],
+  colorStops: [0, 1],
   spots: [
     flSpot1,
     flSpot2,
   ],
   aboveBarData: barAreaData1,
   belowBarData: barAreaData2,
+  gradientFrom: const Offset(0, 0),
+  gradientTo: const Offset(1, 1),
   barWidth: 12,
   curveSmoothness: 12.0,
   dotData: flDotData1,
@@ -943,18 +780,16 @@ final LineChartBarData lineChartBarData6 = LineChartBarData(
 final LineChartBarData lineChartBarData7 = LineChartBarData(
   show: true,
   dashArray: [0, 1],
-  gradient: LinearGradient(
-    colors: [Colors.red, Colors.green.withOpacity(0.4)],
-    stops: const [0, 1],
-    begin: const Alignment(0, 0),
-    end: const Alignment(1, 1),
-  ),
+  colors: [Colors.red, Colors.green.withOpacity(0.4)],
+  colorStops: [0, 1],
   spots: [
     flSpot1,
     flSpot2,
   ],
   aboveBarData: barAreaData1,
   belowBarData: barAreaData2,
+  gradientFrom: const Offset(0, 0),
+  gradientTo: const Offset(1, 1),
   barWidth: 12,
   curveSmoothness: 12.0,
   dotData: flDotData1,
@@ -968,18 +803,16 @@ final LineChartBarData lineChartBarData7 = LineChartBarData(
 final LineChartBarData lineChartBarData8 = LineChartBarData(
   show: true,
   dashArray: [0, 1],
-  gradient: const LinearGradient(
-    colors: [Colors.red, Colors.green],
-    stops: [0, 1],
-    begin: Alignment(0, 0),
-    end: Alignment(1, 1),
-  ),
+  colors: [Colors.red, Colors.green],
+  colorStops: [0, 1],
   spots: [
     flSpot1,
     flSpot2,
   ],
   aboveBarData: barAreaData1,
   belowBarData: barAreaData2,
+  gradientFrom: const Offset(0, 0),
+  gradientTo: const Offset(1, 1),
   barWidth: 12,
   curveSmoothness: 12.01,
   dotData: flDotData1,
@@ -993,18 +826,16 @@ final LineChartBarData lineChartBarData8 = LineChartBarData(
 final LineChartBarData lineChartBarData9 = LineChartBarData(
   show: true,
   dashArray: [0, 1],
-  gradient: const LinearGradient(
-    colors: [Colors.red, Colors.green],
-    stops: [0, 1],
-    begin: Alignment(0, 0),
-    end: Alignment(1, 1),
-  ),
+  colors: [Colors.red, Colors.green],
+  colorStops: [0, 1],
   spots: [
     flSpot1,
     flSpot2,
   ],
   aboveBarData: barAreaData1,
   belowBarData: barAreaData2,
+  gradientFrom: const Offset(0, 0),
+  gradientTo: const Offset(1, 1),
   barWidth: 12,
   curveSmoothness: 12.0,
   dotData: flDotData1,
@@ -1015,27 +846,27 @@ final LineChartBarData lineChartBarData9 = LineChartBarData(
   showingIndicators: [0, 1],
 );
 
-final TouchLineBarSpot lineBarSpot1 = TouchLineBarSpot(
+final LineBarSpot lineBarSpot1 = LineBarSpot(
   lineChartBarData1,
   0,
   flSpot1,
-  0,
 );
-final TouchLineBarSpot lineBarSpot1Clone = TouchLineBarSpot(
+final LineBarSpot lineBarSpot1Clone = LineBarSpot(
   lineChartBarData1Clone,
   0,
   flSpot1Clone,
-  0,
 );
 
-final TouchLineBarSpot lineBarSpot2 =
-    TouchLineBarSpot(lineChartBarData1, 2, flSpot1, 2);
+final LineBarSpot lineBarSpot2 = LineBarSpot(
+  lineChartBarData1,
+  2,
+  flSpot1,
+);
 
-final TouchLineBarSpot lineBarSpot3 = TouchLineBarSpot(
+final LineBarSpot lineBarSpot3 = LineBarSpot(
   lineChartBarData1,
   100,
   flSpot1,
-  2,
 );
 
 final LineTouchResponse lineTouchResponse1 = LineTouchResponse(
@@ -1178,7 +1009,6 @@ final LineTouchTooltipData lineTouchTooltipData1 = LineTouchTooltipData(
   fitInsideVertically: false,
   tooltipRoundedRadius: 12,
   tooltipMargin: 33,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
 );
 final LineTouchTooltipData lineTouchTooltipData1Clone = LineTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(0.1),
@@ -1189,7 +1019,6 @@ final LineTouchTooltipData lineTouchTooltipData1Clone = LineTouchTooltipData(
   fitInsideVertically: false,
   tooltipRoundedRadius: 12,
   tooltipMargin: 33,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
 );
 
 final LineTouchTooltipData lineTouchTooltipData2 = LineTouchTooltipData(
@@ -1201,7 +1030,6 @@ final LineTouchTooltipData lineTouchTooltipData2 = LineTouchTooltipData(
   fitInsideVertically: false,
   tooltipRoundedRadius: 12,
   tooltipMargin: 33,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
 );
 final LineTouchTooltipData lineTouchTooltipData3 = LineTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(0.2),
@@ -1212,7 +1040,6 @@ final LineTouchTooltipData lineTouchTooltipData3 = LineTouchTooltipData(
   fitInsideVertically: false,
   tooltipRoundedRadius: 12,
   tooltipMargin: 33,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
 );
 final LineTouchTooltipData lineTouchTooltipData4 = LineTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(0.1),
@@ -1223,7 +1050,6 @@ final LineTouchTooltipData lineTouchTooltipData4 = LineTouchTooltipData(
   fitInsideVertically: false,
   tooltipRoundedRadius: 12,
   tooltipMargin: 33,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
 );
 final LineTouchTooltipData lineTouchTooltipData5 = LineTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(0.1),
@@ -1234,32 +1060,9 @@ final LineTouchTooltipData lineTouchTooltipData5 = LineTouchTooltipData(
   fitInsideVertically: false,
   tooltipRoundedRadius: 12,
   tooltipMargin: 34,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
-);
-final LineTouchTooltipData lineTouchTooltipData6 = LineTouchTooltipData(
-  tooltipPadding: const EdgeInsets.all(0.1),
-  tooltipBgColor: Colors.green,
-  maxContentWidth: 12,
-  getTooltipItems: lineChartGetTooltipItems,
-  fitInsideHorizontally: true,
-  fitInsideVertically: false,
-  tooltipRoundedRadius: 12,
-  tooltipMargin: 33,
-  tooltipBorder: const BorderSide(color: Colors.pink, width: 1),
-);
-final LineTouchTooltipData lineTouchTooltipData7 = LineTouchTooltipData(
-  tooltipPadding: const EdgeInsets.all(0.1),
-  tooltipBgColor: Colors.green,
-  maxContentWidth: 12,
-  getTooltipItems: lineChartGetTooltipItems,
-  fitInsideHorizontally: true,
-  fitInsideVertically: false,
-  tooltipRoundedRadius: 12,
-  tooltipMargin: 33,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 2),
 );
 
-void lineTouchCallback(FlTouchEvent event, LineTouchResponse? response) {}
+lineTouchCallback(FlTouchEvent event, LineTouchResponse? response) {}
 
 List<TouchedSpotIndicatorData?> getTouchedSpotIndicator(
         LineChartBarData barData, List<int> indexes) =>
@@ -1745,92 +1548,74 @@ final SizedPicture sizedPicture4 = SizedPicture(
 final BetweenBarsData betweenBarsData1 = BetweenBarsData(
   fromIndex: 1,
   toIndex: 2,
-  gradient: const LinearGradient(
-    begin: Alignment(1, 3),
-    end: Alignment(4, 1),
-    stops: [1, 2, 3],
-    colors: [Colors.green, Colors.blue, Colors.red],
-  ),
+  gradientTo: const Offset(1, 3),
+  gradientFrom: const Offset(4, 1),
+  gradientColorStops: [1, 2, 3],
+  colors: [Colors.green, Colors.blue, Colors.red],
 );
 final BetweenBarsData betweenBarsData1Clone = BetweenBarsData(
   fromIndex: 1,
   toIndex: 2,
-  gradient: const LinearGradient(
-    begin: Alignment(1, 3),
-    end: Alignment(4, 1),
-    stops: [1, 2, 3],
-    colors: [Colors.green, Colors.blue, Colors.red],
-  ),
+  gradientTo: const Offset(1, 3),
+  gradientFrom: const Offset(4, 1),
+  gradientColorStops: [1, 2, 3],
+  colors: [Colors.green, Colors.blue, Colors.red],
 );
 final BetweenBarsData betweenBarsData2 = BetweenBarsData(
   fromIndex: 2,
   toIndex: 2,
-  gradient: const LinearGradient(
-    begin: Alignment(1, 3),
-    end: Alignment(4, 1),
-    stops: [1, 2, 3],
-    colors: [Colors.green, Colors.blue, Colors.red],
-  ),
+  gradientTo: const Offset(1, 3),
+  gradientFrom: const Offset(4, 1),
+  gradientColorStops: [1, 2, 3],
+  colors: [Colors.green, Colors.blue, Colors.red],
 );
 final BetweenBarsData betweenBarsData3 = BetweenBarsData(
   fromIndex: 1,
   toIndex: 1,
-  gradient: const LinearGradient(
-    begin: Alignment(1, 4),
-    end: Alignment(4, 1),
-    stops: [1, 2, 3],
-    colors: [Colors.green, Colors.blue, Colors.red],
-  ),
+  gradientTo: const Offset(1, 4),
+  gradientFrom: const Offset(4, 1),
+  gradientColorStops: [1, 2, 3],
+  colors: [Colors.green, Colors.blue, Colors.red],
 );
 final BetweenBarsData betweenBarsData4 = BetweenBarsData(
   fromIndex: 1,
   toIndex: 2,
-  gradient: const LinearGradient(
-    begin: Alignment(1, 3),
-    end: Alignment(5, 1),
-    stops: [1, 2, 3],
-    colors: [Colors.green, Colors.blue, Colors.red],
-  ),
+  gradientTo: const Offset(1, 3),
+  gradientFrom: const Offset(5, 1),
+  gradientColorStops: [1, 2, 3],
+  colors: [Colors.green, Colors.blue, Colors.red],
 );
 final BetweenBarsData betweenBarsData5 = BetweenBarsData(
   fromIndex: 1,
   toIndex: 2,
-  gradient: const LinearGradient(
-    begin: Alignment(1, 3),
-    end: Alignment(4, 1),
-    stops: null,
-    colors: [Colors.green, Colors.blue, Colors.red],
-  ),
+  gradientTo: const Offset(1, 3),
+  gradientFrom: const Offset(4, 1),
+  gradientColorStops: null,
+  colors: [Colors.green, Colors.blue, Colors.red],
 );
 final BetweenBarsData betweenBarsData6 = BetweenBarsData(
   fromIndex: 1,
   toIndex: 2,
-  gradient: const LinearGradient(
-    begin: Alignment(1, 3),
-    end: Alignment(4, 1),
-    stops: [1, 2, 3],
-    colors: [Colors.green, Colors.blue],
-  ),
+  gradientTo: const Offset(1, 3),
+  gradientFrom: const Offset(4, 1),
+  gradientColorStops: [1, 2, 3],
+  colors: [Colors.green, Colors.blue],
 );
 final BetweenBarsData betweenBarsData7 = BetweenBarsData(
   fromIndex: 1,
   toIndex: 2,
-  gradient: const LinearGradient(
-    begin: Alignment(1, 22),
-    end: Alignment(4, 1),
-    stops: [1, 2, 3],
-    colors: [Colors.green, Colors.blue],
-  ),
+  gradientTo: null,
+  gradientFrom: const Offset(4, 1),
+  gradientColorStops: [1, 2, 3],
+  colors: [Colors.green, Colors.blue, Colors.red],
 );
 final BetweenBarsData betweenBarsData8 = BetweenBarsData(
   fromIndex: 1,
   toIndex: 2,
-  gradient: const LinearGradient(
-    begin: Alignment(1, 3),
-    end: Alignment(4, 1),
-    stops: [1, 2, 3],
-    colors: [],
-  ),
+  gradientTo: const Offset(1, 3),
+  gradientFrom: const Offset(4, 1),
+  gradientColorStops: [1, 2, 3],
+  colors: [],
 );
 
 final ShowingTooltipIndicators showingTooltipIndicator1 =
@@ -1865,12 +1650,13 @@ final LineChartData lineChartData1 = LineChartData(
     showingTooltipIndicator1,
     showingTooltipIndicator2,
   ],
+  axisTitleData: flAxisTitleData1,
   clipData: FlClipData.none(),
   backgroundColor: Colors.red,
   maxY: 23,
   rangeAnnotations: rangeAnnotations1,
   gridData: flGridData1,
-  titlesData: MockData.flTitlesData1,
+  titlesData: flTitlesData1,
   lineBarsData: [lineChartBarData1, lineChartBarData2, lineChartBarData3],
   betweenBarsData: [betweenBarsData1, betweenBarsData2, betweenBarsData3],
   extraLinesData: extraLinesData1,
@@ -1885,12 +1671,13 @@ final LineChartData lineChartData1Clone = LineChartData(
     showingTooltipIndicator1Clone,
     showingTooltipIndicator2,
   ],
+  axisTitleData: flAxisTitleData1Clone,
   clipData: FlClipData.none(),
   backgroundColor: Colors.red,
   maxY: 23,
   rangeAnnotations: rangeAnnotations1,
   gridData: flGridData1Clone,
-  titlesData: MockData.flTitlesData1Clone,
+  titlesData: flTitlesData1Clone,
   lineBarsData: [lineChartBarData1Clone, lineChartBarData2, lineChartBarData3],
   betweenBarsData: [betweenBarsData1Clone, betweenBarsData2, betweenBarsData3],
   extraLinesData: extraLinesData1Clone,
@@ -1905,12 +1692,13 @@ final LineChartData lineChartData2 = LineChartData(
     showingTooltipIndicator1,
     showingTooltipIndicator2,
   ],
+  axisTitleData: flAxisTitleData1,
   clipData: FlClipData.none(),
   backgroundColor: Colors.red,
   maxY: 23,
   rangeAnnotations: rangeAnnotations1,
   gridData: flGridData1,
-  titlesData: MockData.flTitlesData1,
+  titlesData: flTitlesData1,
   lineBarsData: [lineChartBarData1, lineChartBarData2, lineChartBarData3],
   betweenBarsData: [betweenBarsData1, betweenBarsData2, betweenBarsData3],
   extraLinesData: extraLinesData1,
@@ -1925,12 +1713,13 @@ final LineChartData lineChartData3 = LineChartData(
     showingTooltipIndicator1,
     showingTooltipIndicator2,
   ],
+  axisTitleData: flAxisTitleData1,
   clipData: FlClipData.none(),
   backgroundColor: Colors.red,
   maxY: 23,
   rangeAnnotations: rangeAnnotations1,
   gridData: flGridData1,
-  titlesData: MockData.flTitlesData1,
+  titlesData: flTitlesData1,
   lineBarsData: [lineChartBarData1, lineChartBarData2, lineChartBarData3],
   betweenBarsData: [betweenBarsData1, betweenBarsData2, betweenBarsData3],
   extraLinesData: extraLinesData1,
@@ -1942,12 +1731,13 @@ final LineChartData lineChartData4 = LineChartData(
   borderData: borderData1,
   lineTouchData: lineTouchData1,
   showingTooltipIndicators: [],
+  axisTitleData: flAxisTitleData1,
   clipData: FlClipData.none(),
   backgroundColor: Colors.red,
   maxY: 23,
   rangeAnnotations: rangeAnnotations1,
   gridData: flGridData1,
-  titlesData: MockData.flTitlesData1,
+  titlesData: flTitlesData1,
   lineBarsData: [lineChartBarData1, lineChartBarData2, lineChartBarData3],
   betweenBarsData: [betweenBarsData1, betweenBarsData2, betweenBarsData3],
   extraLinesData: extraLinesData1,
@@ -1962,12 +1752,13 @@ final LineChartData lineChartData5 = LineChartData(
     showingTooltipIndicator2,
     showingTooltipIndicator1,
   ],
+  axisTitleData: flAxisTitleData1,
   clipData: FlClipData.none(),
   backgroundColor: Colors.red,
   maxY: 23,
   rangeAnnotations: rangeAnnotations1,
   gridData: flGridData1,
-  titlesData: MockData.flTitlesData1,
+  titlesData: flTitlesData1,
   lineBarsData: [lineChartBarData1, lineChartBarData2, lineChartBarData3],
   betweenBarsData: [betweenBarsData1, betweenBarsData2, betweenBarsData3],
   extraLinesData: extraLinesData1,
@@ -1979,12 +1770,13 @@ final LineChartData lineChartData6 = LineChartData(
   borderData: borderData1,
   lineTouchData: lineTouchData1,
   showingTooltipIndicators: null,
+  axisTitleData: flAxisTitleData1,
   clipData: FlClipData.none(),
   backgroundColor: Colors.red,
   maxY: 23,
   rangeAnnotations: rangeAnnotations1,
   gridData: flGridData1,
-  titlesData: MockData.flTitlesData1,
+  titlesData: flTitlesData1,
   lineBarsData: [lineChartBarData1, lineChartBarData2, lineChartBarData3],
   betweenBarsData: [betweenBarsData1, betweenBarsData2, betweenBarsData3],
   extraLinesData: extraLinesData1,
@@ -1999,12 +1791,13 @@ final LineChartData lineChartData7 = LineChartData(
     showingTooltipIndicator1,
     showingTooltipIndicator2,
   ],
+  axisTitleData: flAxisTitleData2,
   clipData: FlClipData.none(),
   backgroundColor: Colors.red,
   maxY: 23,
   rangeAnnotations: rangeAnnotations1,
   gridData: flGridData1,
-  titlesData: MockData.flTitlesData2,
+  titlesData: flTitlesData1,
   lineBarsData: [lineChartBarData1, lineChartBarData2, lineChartBarData3],
   betweenBarsData: [betweenBarsData1, betweenBarsData2, betweenBarsData3],
   extraLinesData: extraLinesData1,
@@ -2019,12 +1812,13 @@ final LineChartData lineChartData8 = LineChartData(
     showingTooltipIndicator1,
     showingTooltipIndicator2,
   ],
+  axisTitleData: flAxisTitleData1,
   clipData: FlClipData.all(),
   backgroundColor: Colors.red,
   maxY: 23,
   rangeAnnotations: rangeAnnotations1,
   gridData: flGridData1,
-  titlesData: MockData.flTitlesData1,
+  titlesData: flTitlesData1,
   lineBarsData: [lineChartBarData1, lineChartBarData2, lineChartBarData3],
   betweenBarsData: [betweenBarsData1, betweenBarsData2, betweenBarsData3],
   extraLinesData: extraLinesData1,
@@ -2039,12 +1833,13 @@ final LineChartData lineChartData9 = LineChartData(
     showingTooltipIndicator1,
     showingTooltipIndicator2,
   ],
+  axisTitleData: flAxisTitleData1,
   clipData: FlClipData.none(),
   backgroundColor: Colors.red.withOpacity(0.2),
   maxY: 23,
   rangeAnnotations: rangeAnnotations1,
   gridData: flGridData1,
-  titlesData: MockData.flTitlesData1,
+  titlesData: flTitlesData1,
   lineBarsData: [lineChartBarData1, lineChartBarData2, lineChartBarData3],
   betweenBarsData: [betweenBarsData1, betweenBarsData2, betweenBarsData3],
   extraLinesData: extraLinesData1,
@@ -2059,12 +1854,13 @@ final LineChartData lineChartData10 = LineChartData(
     showingTooltipIndicator1,
     showingTooltipIndicator2,
   ],
+  axisTitleData: flAxisTitleData1,
   clipData: FlClipData.none(),
   backgroundColor: Colors.red,
   maxY: 24,
   rangeAnnotations: rangeAnnotations1,
   gridData: flGridData1,
-  titlesData: MockData.flTitlesData1,
+  titlesData: flTitlesData1,
   lineBarsData: [lineChartBarData1, lineChartBarData2, lineChartBarData3],
   betweenBarsData: [betweenBarsData1, betweenBarsData2, betweenBarsData3],
   extraLinesData: extraLinesData1,
@@ -2079,12 +1875,13 @@ final LineChartData lineChartData11 = LineChartData(
     showingTooltipIndicator1,
     showingTooltipIndicator2,
   ],
+  axisTitleData: flAxisTitleData1,
   clipData: FlClipData.none(),
   backgroundColor: Colors.red,
   maxY: 23,
   rangeAnnotations: null,
   gridData: flGridData1,
-  titlesData: MockData.flTitlesData1,
+  titlesData: flTitlesData1,
   lineBarsData: [lineChartBarData1, lineChartBarData2, lineChartBarData3],
   betweenBarsData: [betweenBarsData1, betweenBarsData2, betweenBarsData3],
   extraLinesData: extraLinesData1,
@@ -2099,12 +1896,13 @@ final LineChartData lineChartData12 = LineChartData(
     showingTooltipIndicator1,
     showingTooltipIndicator2,
   ],
+  axisTitleData: flAxisTitleData1,
   clipData: FlClipData.none(),
   backgroundColor: Colors.red,
   maxY: 23,
   rangeAnnotations: rangeAnnotations1,
   gridData: flGridData2,
-  titlesData: MockData.flTitlesData1,
+  titlesData: flTitlesData1,
   lineBarsData: [lineChartBarData1, lineChartBarData2, lineChartBarData3],
   betweenBarsData: [betweenBarsData1, betweenBarsData2, betweenBarsData3],
   extraLinesData: extraLinesData1,
@@ -2119,12 +1917,13 @@ final LineChartData lineChartData13 = LineChartData(
     showingTooltipIndicator1,
     showingTooltipIndicator2,
   ],
+  axisTitleData: flAxisTitleData1,
   clipData: FlClipData.none(),
   backgroundColor: Colors.red,
   maxY: 23,
   rangeAnnotations: rangeAnnotations1,
   gridData: flGridData1,
-  titlesData: MockData.flTitlesData3,
+  titlesData: flTitlesData3,
   lineBarsData: [lineChartBarData1, lineChartBarData2, lineChartBarData3],
   betweenBarsData: [betweenBarsData1, betweenBarsData2, betweenBarsData3],
   extraLinesData: extraLinesData1,
@@ -2139,12 +1938,13 @@ final LineChartData lineChartData14 = LineChartData(
     showingTooltipIndicator1,
     showingTooltipIndicator2,
   ],
+  axisTitleData: flAxisTitleData1,
   clipData: FlClipData.none(),
   backgroundColor: Colors.red,
   maxY: 23,
   rangeAnnotations: rangeAnnotations1,
   gridData: flGridData1,
-  titlesData: MockData.flTitlesData1,
+  titlesData: flTitlesData1,
   lineBarsData: [lineChartBarData2, lineChartBarData3, lineChartBarData1],
   betweenBarsData: [betweenBarsData1, betweenBarsData2, betweenBarsData3],
   extraLinesData: extraLinesData1,
@@ -2159,12 +1959,13 @@ final LineChartData lineChartData15 = LineChartData(
     showingTooltipIndicator1,
     showingTooltipIndicator2,
   ],
+  axisTitleData: flAxisTitleData1,
   clipData: FlClipData.none(),
   backgroundColor: Colors.red,
   maxY: 23,
   rangeAnnotations: rangeAnnotations1,
   gridData: flGridData1,
-  titlesData: MockData.flTitlesData1,
+  titlesData: flTitlesData1,
   lineBarsData: null,
   betweenBarsData: [betweenBarsData1, betweenBarsData2, betweenBarsData3],
   extraLinesData: extraLinesData1,
@@ -2179,12 +1980,13 @@ final LineChartData lineChartData16 = LineChartData(
     showingTooltipIndicator1,
     showingTooltipIndicator2,
   ],
+  axisTitleData: flAxisTitleData1,
   clipData: FlClipData.none(),
   backgroundColor: Colors.red,
   maxY: 23,
   rangeAnnotations: rangeAnnotations1,
   gridData: flGridData1,
-  titlesData: MockData.flTitlesData1,
+  titlesData: flTitlesData1,
   lineBarsData: [lineChartBarData1, lineChartBarData2, lineChartBarData3],
   betweenBarsData: [betweenBarsData2, betweenBarsData3, betweenBarsData1],
   extraLinesData: extraLinesData1,
@@ -2199,12 +2001,13 @@ final LineChartData lineChartData17 = LineChartData(
     showingTooltipIndicator1,
     showingTooltipIndicator2,
   ],
+  axisTitleData: flAxisTitleData1,
   clipData: FlClipData.none(),
   backgroundColor: Colors.red,
   maxY: 23,
   rangeAnnotations: rangeAnnotations1,
   gridData: flGridData1,
-  titlesData: MockData.flTitlesData1,
+  titlesData: flTitlesData1,
   lineBarsData: [lineChartBarData1, lineChartBarData2, lineChartBarData3],
   betweenBarsData: [betweenBarsData1, betweenBarsData2, betweenBarsData3],
   extraLinesData: extraLinesData2,
@@ -2219,12 +2022,13 @@ final LineChartData lineChartData18 = LineChartData(
     showingTooltipIndicator1,
     showingTooltipIndicator2,
   ],
+  axisTitleData: flAxisTitleData1,
   clipData: FlClipData.none(),
   backgroundColor: Colors.red,
   maxY: 23,
   rangeAnnotations: rangeAnnotations1,
   gridData: flGridData1,
-  titlesData: MockData.flTitlesData1,
+  titlesData: flTitlesData1,
   lineBarsData: [lineChartBarData1, lineChartBarData2, lineChartBarData3],
   betweenBarsData: [betweenBarsData1, betweenBarsData2, betweenBarsData3],
   extraLinesData: extraLinesData1,
@@ -2239,12 +2043,13 @@ final LineChartData lineChartData19 = LineChartData(
     showingTooltipIndicator1,
     showingTooltipIndicator2,
   ],
+  axisTitleData: flAxisTitleData1,
   clipData: FlClipData.none(),
   backgroundColor: Colors.red,
   maxY: 23,
   rangeAnnotations: rangeAnnotations1,
   gridData: flGridData1,
-  titlesData: MockData.flTitlesData1,
+  titlesData: flTitlesData1,
   lineBarsData: [lineChartBarData1, lineChartBarData2, lineChartBarData3],
   betweenBarsData: [betweenBarsData1, betweenBarsData2, betweenBarsData3],
   extraLinesData: extraLinesData1,
@@ -2259,12 +2064,13 @@ final LineChartData lineChartData20 = LineChartData(
     showingTooltipIndicator1,
     showingTooltipIndicator2,
   ],
+  axisTitleData: flAxisTitleData1,
   clipData: FlClipData.none(),
   backgroundColor: Colors.red,
   maxY: 23,
   rangeAnnotations: rangeAnnotations1,
   gridData: flGridData1,
-  titlesData: MockData.flTitlesData1,
+  titlesData: flTitlesData1,
   lineBarsData: [lineChartBarData1, lineChartBarData2, lineChartBarData3],
   betweenBarsData: [betweenBarsData1, betweenBarsData2, betweenBarsData3],
   extraLinesData: extraLinesData1,
@@ -2291,7 +2097,6 @@ final PieChartData pieChartData1 = PieChartData(
 final PieChartData pieChartData1Clone = pieChartData1.copyWith();
 
 bool gridCheckToShowLine(double value) => true;
-
 FlLine gridGetDrawingLine(double value) => FlLine();
 
 ScatterTooltipItem? scatterChartGetTooltipItems(ScatterSpot spots) {
@@ -2306,16 +2111,46 @@ final ScatterSpot scatterSpot2Clone = scatterSpot2.copyWith();
 final ScatterSpot scatterSpot3 = ScatterSpot(-14, 5);
 final ScatterSpot scatterSpot4 = ScatterSpot(-0, 0);
 
-String getLabel(int spotIndex, ScatterSpot spot) => 'label';
-
-TextStyle getLabelTextStyle(int spotIndex, ScatterSpot spot) =>
-    const TextStyle(color: Colors.green);
-
 final ScatterChartData scatterChartData1 = ScatterChartData(
   minY: 0,
   maxY: 12,
   maxX: 22,
   minX: 11,
+  axisTitleData: FlAxisTitleData(
+    show: true,
+    leftTitle: AxisTitle(
+      showTitle: true,
+      textStyle: const TextStyle(color: Colors.red, fontSize: 33),
+      textAlign: TextAlign.left,
+      reservedSize: 22,
+      margin: 11,
+      titleText: 'title 1',
+    ),
+    bottomTitle: AxisTitle(
+      showTitle: false,
+      textStyle: const TextStyle(color: Colors.grey, fontSize: 33),
+      textAlign: TextAlign.left,
+      reservedSize: 11,
+      margin: 11,
+      titleText: 'title 2',
+    ),
+    rightTitle: AxisTitle(
+      showTitle: false,
+      textStyle: const TextStyle(color: Colors.blue, fontSize: 11),
+      textAlign: TextAlign.left,
+      reservedSize: 2,
+      margin: 1324,
+      titleText: 'title 3',
+    ),
+    topTitle: AxisTitle(
+      showTitle: true,
+      textStyle: const TextStyle(color: Colors.green, fontSize: 33),
+      textAlign: TextAlign.left,
+      reservedSize: 23,
+      margin: 11,
+      titleText: 'title 4',
+    ),
+  ),
   gridData: FlGridData(
     show: false,
     getDrawingHorizontalLine: gridGetDrawingLine,
@@ -2357,77 +2192,98 @@ final ScatterChartData scatterChartData1 = ScatterChartData(
   showingTooltipIndicators: [0, 1, 2],
   titlesData: FlTitlesData(
     show: true,
-    leftTitles: AxisTitles(
-      axisNameSize: 33,
-      axisNameWidget: MockData.widget1,
-      sideTitles: SideTitles(showTitles: false),
-    ),
-    rightTitles: AxisTitles(
-      axisNameSize: 1326,
-      axisNameWidget: MockData.widget3,
-      sideTitles: SideTitles(reservedSize: 500, showTitles: true),
-    ),
-    topTitles: AxisTitles(
-      axisNameSize: 34,
-      axisNameWidget: MockData.widget4,
-      sideTitles: SideTitles(showTitles: false),
-    ),
-    bottomTitles: AxisTitles(
-      axisNameSize: 22,
-      axisNameWidget: MockData.widget2,
-      sideTitles: SideTitles(showTitles: false),
-    ),
-  ),
-  scatterLabelSettings: ScatterLabelSettings(
-    showLabel: true,
-    getLabelTextStyleFunction: getLabelTextStyle,
-    getLabelFunction: getLabel,
+    leftTitles: SideTitles(showTitles: false),
+    rightTitles: SideTitles(reservedSize: 100, margin: 400, showTitles: true),
+    topTitles: SideTitles(showTitles: false),
+    bottomTitles: SideTitles(showTitles: false),
   ),
 );
-final ScatterChartData scatterChartData1Clone = scatterChartData1.copyWith();
-final ScatterTouchTooltipData scatterTouchTooltipData1 =
-    ScatterTouchTooltipData(
-  tooltipRoundedRadius: 23,
-  tooltipPadding: const EdgeInsets.all(11),
-  tooltipBgColor: Colors.green,
-  maxContentWidth: 33,
-  fitInsideVertically: true,
-  fitInsideHorizontally: false,
-  getTooltipItems: scatterChartGetTooltipItems,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
-);
-final ScatterTouchTooltipData scatterTouchTooltipData1Clone =
-    ScatterTouchTooltipData(
-  tooltipRoundedRadius: 23,
-  tooltipPadding: const EdgeInsets.all(11),
-  tooltipBgColor: Colors.green,
-  maxContentWidth: 33,
-  fitInsideVertically: true,
-  fitInsideHorizontally: false,
-  getTooltipItems: scatterChartGetTooltipItems,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
-);
-final ScatterTouchTooltipData scatterTouchTooltipData2 =
-    ScatterTouchTooltipData(
-  tooltipRoundedRadius: 23,
-  tooltipPadding: const EdgeInsets.all(11),
-  tooltipBgColor: Colors.green,
-  maxContentWidth: 33,
-  fitInsideVertically: true,
-  fitInsideHorizontally: false,
-  getTooltipItems: scatterChartGetTooltipItems,
-  tooltipBorder: const BorderSide(color: Colors.blue, width: 1),
-);
-final ScatterTouchTooltipData scatterTouchTooltipData3 =
-    ScatterTouchTooltipData(
-  tooltipRoundedRadius: 23,
-  tooltipPadding: const EdgeInsets.all(11),
-  tooltipBgColor: Colors.green,
-  maxContentWidth: 33,
-  fitInsideVertically: true,
-  fitInsideHorizontally: false,
-  getTooltipItems: scatterChartGetTooltipItems,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 2),
+final ScatterChartData scatterChartData1Clone = ScatterChartData(
+  minY: 0,
+  maxY: 12,
+  maxX: 22,
+  minX: 11,
+  axisTitleData: FlAxisTitleData(
+    show: true,
+    leftTitle: AxisTitle(
+      showTitle: true,
+      textStyle: const TextStyle(color: Colors.red, fontSize: 33),
+      textAlign: TextAlign.left,
+      reservedSize: 22,
+      margin: 11,
+      titleText: 'title 1',
+    ),
+    bottomTitle: AxisTitle(
+      showTitle: false,
+      textStyle: const TextStyle(color: Colors.grey, fontSize: 33),
+      textAlign: TextAlign.left,
+      reservedSize: 11,
+      margin: 11,
+      titleText: 'title 2',
+    ),
+    rightTitle: AxisTitle(
+      showTitle: false,
+      textStyle: const TextStyle(color: Colors.blue, fontSize: 11),
+      textAlign: TextAlign.left,
+      reservedSize: 2,
+      margin: 1324,
+      titleText: 'title 3',
+    ),
+    topTitle: AxisTitle(
+      showTitle: true,
+      textStyle: const TextStyle(color: Colors.green, fontSize: 33),
+      textAlign: TextAlign.left,
+      reservedSize: 23,
+      margin: 11,
+      titleText: 'title 4',
+    ),
+  ),
+  gridData: FlGridData(
+    show: false,
+    getDrawingHorizontalLine: gridGetDrawingLine,
+    getDrawingVerticalLine: gridGetDrawingLine,
+    checkToShowHorizontalLine: gridCheckToShowLine,
+    checkToShowVerticalLine: gridCheckToShowLine,
+    drawHorizontalLine: true,
+    drawVerticalLine: false,
+    horizontalInterval: 33,
+    verticalInterval: 1,
+  ),
+  backgroundColor: Colors.black,
+  clipData: FlClipData.none(),
+  borderData: FlBorderData(
+      show: true,
+      border: Border.all(
+        color: Colors.white,
+      )),
+  scatterSpots: [
+    ScatterSpot(0, 0, show: false, radius: 33, color: Colors.yellow),
+    ScatterSpot(2, 2, show: false, radius: 11, color: Colors.purple),
+    ScatterSpot(1, 2, show: false, radius: 11, color: Colors.white),
+  ],
+  scatterTouchData: ScatterTouchData(
+    enabled: true,
+    touchTooltipData: ScatterTouchTooltipData(
+      getTooltipItems: scatterChartGetTooltipItems,
+      fitInsideHorizontally: true,
+      fitInsideVertically: false,
+      maxContentWidth: 33,
+      tooltipBgColor: Colors.white,
+      tooltipPadding: const EdgeInsets.all(23),
+      tooltipRoundedRadius: 534,
+    ),
+    handleBuiltInTouches: false,
+    touchCallback: scatterTouchCallback,
+    touchSpotThreshold: 12,
+  ),
+  showingTooltipIndicators: [0, 1, 2],
+  titlesData: FlTitlesData(
+    show: true,
+    leftTitles: SideTitles(showTitles: false),
+    rightTitles: SideTitles(reservedSize: 100, margin: 400, showTitles: true),
+    topTitles: SideTitles(showTitles: false),
+    bottomTitles: SideTitles(showTitles: false),
+  ),
 );
 
 final BarChartRodStackItem barChartRodStackItem1 = BarChartRodStackItem(
@@ -2446,32 +2302,32 @@ final BarChartRodStackItem barChartRodStackItem2 = BarChartRodStackItem(
 
 final BackgroundBarChartRodData backgroundBarChartRodData1 =
     BackgroundBarChartRodData(
-  toY: 21,
-  color: Colors.blue,
+  y: 21,
+  colors: [Colors.blue],
   show: true,
 );
 final BackgroundBarChartRodData backgroundBarChartRodData1Clone =
     BackgroundBarChartRodData(
-  toY: 21,
-  color: Colors.blue,
+  y: 21,
+  colors: [Colors.blue],
   show: true,
 );
 final BackgroundBarChartRodData backgroundBarChartRodData2 =
     BackgroundBarChartRodData(
-  toY: 44,
-  color: Colors.red,
+  y: 44,
+  colors: [Colors.red],
   show: true,
 );
 final BackgroundBarChartRodData backgroundBarChartRodData3 =
     BackgroundBarChartRodData(
-  toY: 44,
-  color: Colors.green,
+  y: 44,
+  colors: [Colors.green],
   show: true,
 );
 
 final BarChartRodData barChartRodData1 = BarChartRodData(
-  color: Colors.red,
-  toY: 12,
+  colors: [Colors.red],
+  y: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
   rodStackItems: [
@@ -2489,8 +2345,8 @@ final BarChartRodData barChartRodData1Clone = barChartRodData1.copyWith(
 );
 
 final BarChartRodData barChartRodData2 = BarChartRodData(
-  color: Colors.red,
-  toY: 1132,
+  colors: [Colors.red],
+  y: 1132,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
   rodStackItems: [
@@ -2500,8 +2356,8 @@ final BarChartRodData barChartRodData2 = BarChartRodData(
   backDrawRodData: backgroundBarChartRodData1,
 );
 final BarChartRodData barChartRodData3 = BarChartRodData(
-  color: Colors.green,
-  toY: 12,
+  colors: [Colors.green],
+  y: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
   rodStackItems: [
@@ -2510,8 +2366,8 @@ final BarChartRodData barChartRodData3 = BarChartRodData(
   backDrawRodData: backgroundBarChartRodData1,
 );
 final BarChartRodData barChartRodData4 = BarChartRodData(
-  color: Colors.red,
-  toY: 12,
+  colors: [Colors.red],
+  y: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
   rodStackItems: [
@@ -2521,8 +2377,8 @@ final BarChartRodData barChartRodData4 = BarChartRodData(
   backDrawRodData: backgroundBarChartRodData1,
 );
 final BarChartRodData barChartRodData5 = BarChartRodData(
-  color: Colors.red,
-  toY: 12,
+  colors: [Colors.red],
+  y: 12,
   width: 55,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
   rodStackItems: [
@@ -2532,16 +2388,16 @@ final BarChartRodData barChartRodData5 = BarChartRodData(
   backDrawRodData: backgroundBarChartRodData1,
 );
 final BarChartRodData barChartRodData6 = BarChartRodData(
-  color: Colors.red,
-  toY: 12,
+  colors: [Colors.red],
+  y: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
   rodStackItems: null,
   backDrawRodData: backgroundBarChartRodData1,
 );
 final BarChartRodData barChartRodData7 = BarChartRodData(
-  color: Colors.red,
-  toY: 12,
+  colors: [Colors.red],
+  y: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(12)),
   rodStackItems: [
@@ -2551,8 +2407,8 @@ final BarChartRodData barChartRodData7 = BarChartRodData(
   backDrawRodData: backgroundBarChartRodData2,
 );
 final BarChartRodData barChartRodData8 = BarChartRodData(
-  color: Colors.red,
-  toY: 12,
+  colors: [Colors.red],
+  y: 12,
   width: 32,
   borderRadius: const BorderRadius.all(Radius.circular(14)),
   rodStackItems: [
@@ -2794,7 +2650,7 @@ BarTooltipItem getTooltipItem(
     fontWeight: FontWeight.bold,
     fontSize: 14,
   );
-  return BarTooltipItem(rod.toY.toString(), textStyle);
+  return BarTooltipItem(rod.y.toString(), textStyle);
 }
 
 final BarTouchTooltipData barTouchTooltipData1 = BarTouchTooltipData(
@@ -2806,7 +2662,6 @@ final BarTouchTooltipData barTouchTooltipData1 = BarTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
   tooltipMargin: 12,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
 );
 final BarTouchTooltipData barTouchTooltipData1Clone = BarTouchTooltipData(
   tooltipRoundedRadius: 12,
@@ -2817,7 +2672,6 @@ final BarTouchTooltipData barTouchTooltipData1Clone = BarTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
   tooltipMargin: 12,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
 );
 final BarTouchTooltipData barTouchTooltipData2 = BarTouchTooltipData(
   tooltipRoundedRadius: 13,
@@ -2828,7 +2682,6 @@ final BarTouchTooltipData barTouchTooltipData2 = BarTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
   tooltipMargin: 12,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
 );
 final BarTouchTooltipData barTouchTooltipData3 = BarTouchTooltipData(
   tooltipRoundedRadius: 12,
@@ -2839,7 +2692,6 @@ final BarTouchTooltipData barTouchTooltipData3 = BarTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
   tooltipMargin: 12,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
 );
 final BarTouchTooltipData barTouchTooltipData4 = BarTouchTooltipData(
   tooltipRoundedRadius: 12,
@@ -2850,7 +2702,6 @@ final BarTouchTooltipData barTouchTooltipData4 = BarTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
   tooltipMargin: 12,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
 );
 final BarTouchTooltipData barTouchTooltipData5 = BarTouchTooltipData(
   tooltipRoundedRadius: 12,
@@ -2861,7 +2712,6 @@ final BarTouchTooltipData barTouchTooltipData5 = BarTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
   tooltipMargin: 12,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
 );
 final BarTouchTooltipData barTouchTooltipData6 = BarTouchTooltipData(
   tooltipRoundedRadius: 12,
@@ -2872,7 +2722,6 @@ final BarTouchTooltipData barTouchTooltipData6 = BarTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
   tooltipMargin: 12,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
 );
 final BarTouchTooltipData barTouchTooltipData7 = BarTouchTooltipData(
   tooltipRoundedRadius: 12,
@@ -2883,7 +2732,6 @@ final BarTouchTooltipData barTouchTooltipData7 = BarTouchTooltipData(
   tooltipPadding: null,
   getTooltipItem: getTooltipItem,
   tooltipMargin: 12,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
 );
 final BarTouchTooltipData barTouchTooltipData8 = BarTouchTooltipData(
   tooltipRoundedRadius: 12,
@@ -2894,7 +2742,6 @@ final BarTouchTooltipData barTouchTooltipData8 = BarTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: null,
   tooltipMargin: 12,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
 );
 final BarTouchTooltipData barTouchTooltipData9 = BarTouchTooltipData(
   tooltipRoundedRadius: 12,
@@ -2905,34 +2752,11 @@ final BarTouchTooltipData barTouchTooltipData9 = BarTouchTooltipData(
   tooltipPadding: const EdgeInsets.all(23),
   getTooltipItem: getTooltipItem,
   tooltipMargin: 333,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 1),
-);
-final BarTouchTooltipData barTouchTooltipData10 = BarTouchTooltipData(
-  tooltipRoundedRadius: 12,
-  fitInsideVertically: false,
-  fitInsideHorizontally: true,
-  maxContentWidth: 23,
-  tooltipBgColor: Colors.green,
-  tooltipPadding: const EdgeInsets.all(23),
-  getTooltipItem: getTooltipItem,
-  tooltipMargin: 12,
-  tooltipBorder: const BorderSide(color: Colors.blue, width: 1),
-);
-final BarTouchTooltipData barTouchTooltipData11 = BarTouchTooltipData(
-  tooltipRoundedRadius: 12,
-  fitInsideVertically: false,
-  fitInsideHorizontally: true,
-  maxContentWidth: 23,
-  tooltipBgColor: Colors.green,
-  tooltipPadding: const EdgeInsets.all(23),
-  getTooltipItem: getTooltipItem,
-  tooltipMargin: 12,
-  tooltipBorder: const BorderSide(color: Colors.red, width: 2),
 );
 
-void barTouchCallback(FlTouchEvent event, BarTouchResponse? response) {}
+barTouchCallback(FlTouchEvent event, BarTouchResponse? response) {}
 
-void scatterTouchCallback(FlTouchEvent event, ScatterTouchResponse? response) {}
+scatterTouchCallback(FlTouchEvent event, ScatterTouchResponse? response) {}
 
 final BarTouchData barTouchData1 = BarTouchData(
   touchTooltipData: barTouchTooltipData1,
@@ -3017,11 +2841,12 @@ final BarTouchData barTouchData9 = BarTouchData(
 
 final BarChartData barChartData1 = BarChartData(
   minY: 12,
-  titlesData: MockData.flTitlesData1,
+  titlesData: flTitlesData1,
   gridData: flGridData1,
   rangeAnnotations: rangeAnnotations1,
   maxY: 23,
   backgroundColor: Colors.green,
+  axisTitleData: flAxisTitleData1,
   borderData: borderData1,
   alignment: BarChartAlignment.spaceAround,
   barGroups: [
@@ -3033,8 +2858,9 @@ final BarChartData barChartData1 = BarChartData(
   groupsSpace: 23,
 );
 final BarChartData barChartData1Clone = barChartData1.copyWith(
-    titlesData: MockData.flTitlesData1Clone,
+    titlesData: flTitlesData1Clone,
     gridData: flGridData1Clone,
+    axisTitleData: flAxisTitleData1Clone,
     borderData: borderData1Clone,
     barTouchData: barTouchData1Clone,
     rangeAnnotations: rangeAnnotations1Clone);
@@ -3043,7 +2869,7 @@ final BarChartData barChartData2 = barChartData1.copyWith(
   minY: 11,
 );
 final BarChartData barChartData3 = barChartData1.copyWith(
-  titlesData: MockData.flTitlesData2,
+  titlesData: flTitlesData2,
 );
 final BarChartData barChartData4 = barChartData1.copyWith(
   gridData: flGridData2,
@@ -3058,7 +2884,7 @@ final BarChartData barChartData7 = barChartData1.copyWith(
   backgroundColor: Colors.red,
 );
 final BarChartData barChartData8 = barChartData1.copyWith(
-  titlesData: MockData.flTitlesData3,
+  axisTitleData: flAxisTitleData3,
 );
 final BarChartData barChartData9 = barChartData1.copyWith(
   borderData: borderData2,
@@ -3127,7 +2953,7 @@ final RadarTouchData radarTouchData2 = RadarTouchData(
 
 final RadarTouchData radarTouchData1Clone = radarTouchData1;
 
-void radarTouchCallback(FlTouchEvent event, RadarTouchResponse? response) {}
+radarTouchCallback(FlTouchEvent event, RadarTouchResponse? response) {}
 
 final radarTouchedSpot1 = RadarTouchedSpot(
   radarDataSet1,
@@ -3200,7 +3026,7 @@ final RadarChartData radarChartData1 = RadarChartData(
   radarBorderData: const BorderSide(color: Colors.purple, width: 5),
   borderData: borderData1,
   gridBorderData: const BorderSide(color: Colors.blue, width: 2),
-  getTitle: (index, angle) => RadarChartTitle(text: 'testTitle', angle: angle),
+  getTitle: (index) => 'testTitle',
   titlePositionPercentageOffset: 0.2,
   titleTextStyle: const TextStyle(color: Colors.white, fontSize: 12),
   radarTouchData: radarTouchData1,
@@ -3217,7 +3043,7 @@ final RadarChartData radarChartData2 = RadarChartData(
   radarBorderData: const BorderSide(color: Colors.pink, width: 3),
   borderData: borderData1,
   gridBorderData: const BorderSide(color: Colors.red, width: 3),
-  getTitle: (index, angle) => RadarChartTitle(text: 'testTitle2', angle: angle),
+  getTitle: (index) => 'testTitle2',
   titlePositionPercentageOffset: 0.5,
   titleTextStyle: const TextStyle(color: Colors.black, fontSize: 5),
   radarTouchData: radarTouchData2,
